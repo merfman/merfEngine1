@@ -3,6 +3,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using System;
 
+namespace OpenGLGameEngine;
 internal class Program
 {
     private static void Main(string[] args)
@@ -10,7 +11,7 @@ internal class Program
         var nativeWindowSettings = new NativeWindowSettings()
         {
             ClientSize = new Vector2i(1440, 1080),
-            Title = "LearnOpenTK - Multiple lights",
+            Title = "MerfEngine a0.01",
             // This is needed to run on macos
             Flags = ContextFlags.ForwardCompatible,
         };
