@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OpenGLGameEngine;
-public class BaseObect
+/// <summary>
+/// 
+/// </summary>
+public class Scene : BaseObject
 {
-    public string Name;
+
 }
