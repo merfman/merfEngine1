@@ -76,7 +76,6 @@ internal class Mesh : Asset
         {
             VerPoss.Add(new Vector3(vertexData[i - 2], vertexData[i - 1], vertexData[i]));
             norms.Add(new Vector3(normals[i - 2], normals[i - 1], normals[i]));
-            
         }
         for (int i = 2; i < faceIndices.Length; i += 3)
         {
@@ -87,12 +86,9 @@ internal class Mesh : Asset
         {
             uv.Add(new Vector2(vertexData[i - 1], vertexData[i]));
         }
-
         VertexPositions = VerPoss.ToArray();
         UV.Add(uv.ToArray());
-        FaceIndices = 
-        Normals = 
-
-        //throw new NotImplementedException();
+        FaceIndices = faceIndices2.ToArray();
+        Normals = norms.ToArray();
     }
 }

@@ -16,7 +16,7 @@ internal class Window : GameWindow
         : base(gameWindowSettings, nativeWindowSettings)
     {
     }
-
+    
     protected override void OnLoad()
     {
         base.OnLoad();
