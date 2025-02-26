@@ -25,17 +25,19 @@ public enum RenderingLayer
 /// <summary>
 /// 
 /// </summary>
-//TODO: maybe make this derive from component, or have a shared ancestry or something
-public class RenderComponent
+public class RenderComponent : Component
 {
     /// <summary>
     /// A <see cref="RenderingLayer"/> that determines when or if the <see cref="GameObject"/> is rendered.
     /// </summary>
     /// <remarks> RenderLayer as an enum came from a suggestion by ChatGPT. </remarks>
     public RenderingLayer RenderLayer;
+    public GameObject RenderObject;
 
-    public RenderComponent(RenderingLayer renderLayer = RenderingLayer.Default)
+
+    public RenderComponent(GameObject renderObject, RenderingLayer renderLayer = RenderingLayer.Default)
     {
+        RenderObject = renderObject;
         RenderLayer = renderLayer;
     }
 }

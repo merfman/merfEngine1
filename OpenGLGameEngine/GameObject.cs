@@ -1,5 +1,6 @@
 ﻿using OpenGLGameEngine.Mathmatics;
 using OpenGLGameEngine.Assets;
+using OpenGLGameEngine.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,9 @@ public class GameObject : BaseObject
     /// </summary>
     public List<WeakReference<GameObject>> Children;
     /// <summary>
-    /// List of <seealso cref="Component"/>.
+    /// List of <seealso cref="ScriptingComponent"/>.
     /// </summary>
-    public List<Component> Components;
+    public List<ScriptingComponent> Components;
     /// <summary>
     /// List of <seealso cref="Asset"/> stored as <seealso cref="WeakReference"/>.
     /// </summary>
@@ -47,7 +48,7 @@ public class GameObject : BaseObject
 
         // Initialize the empty lists
         Children = new List<WeakReference<GameObject>>();
-        Components = new List<Component>();
+        Components = new List<ScriptingComponent>();
         Assets = new List<WeakReference<Asset>>();
 
     }
