@@ -24,7 +24,7 @@ public class Camera : GameObject
         get => MathHelper.RadiansToDegrees(_fov);
         set
         {
-            var angle = MathHelper.Clamp(value, 1f, 90f);//TODO: expand if this is limiting the FOV to a maximum of 90
+            var angle = MathHelper.Clamp(value, 1f, 90f); //TODO: expand if this is limiting the FOV to a maximum of 90
             _fov = MathHelper.DegreesToRadians(angle);
         }
     }

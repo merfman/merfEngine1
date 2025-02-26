@@ -15,6 +15,7 @@ namespace OpenGLGameEngine.Assets;
 /// </summary>
 internal class Mesh : Asset
 {
+    private bool _isInitialized = false;
     /// <summary>
     /// This holds the vertex positions as a <seealso cref="Vector3"/>.
     /// </summary>
@@ -63,9 +64,9 @@ internal class Mesh : Asset
     public override void LoadFromFile(string path)
     {
         Console.WriteLine($"Loading File {path}");
-        float[] textureCoords, vertexData, normals;
-        int[] faceIndices;
-        (vertexData, faceIndices, normals, textureCoords) = OBJParser.Parse(path);
+        (float[] vertexData, int[] faceIndices, float[] normals, float[] tangentData, float[] textureCoords) = OBJParser.Parse(path);
+
+        bindRenderObjects(InterleaveData(vertexData, normals, tangentData, textureCoords), faceIndices);
 
         List<Vector3> VerPoss, norms;
         VerPoss = norms = new List<Vector3>();
@@ -90,5 +91,100 @@ internal class Mesh : Asset
         UV.Add(uv.ToArray());
         FaceIndices = faceIndices2.ToArray();
         Normals = norms.ToArray();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="vertices"></param>
+    /// <param name="normals"></param>
+    /// <param name="tangents"></param>
+    /// <param name="texCoords"></param>
+    /// <returns></returns>
+    /// <remarks>Written By ChatGPT</remarks>
+    private float[] InterleaveData(float[] vertices, float[] normals, float[] tangents, float[] texCoords)
+    {
+        int vertexCount = vertices.Length / 3;
+        float[] interleavedData = new float[vertexCount * 11]; // 11 floats per vertex
+
+        for (int i = 0; i < vertexCount; i++)
+        {
+            int vertexOffset = i * 3;
+            int normalOffset = i * 3;
+            int tangentOffset = i * 3;
+            int texCoordOffset = i * 2;
+            int interleavedOffset = i * 11;
+
+            // Position (XYZ)
+            interleavedData[interleavedOffset] = vertices[vertexOffset];
+            interleavedData[interleavedOffset + 1] = vertices[vertexOffset + 1];
+            interleavedData[interleavedOffset + 2] = vertices[vertexOffset + 2];
+
+            // Normal (XYZ)
+            interleavedData[interleavedOffset + 3] = normals[normalOffset];
+            interleavedData[interleavedOffset + 4] = normals[normalOffset + 1];
+            interleavedData[interleavedOffset + 5] = normals[normalOffset + 2];
+
+            // Tangent (XYZ)
+            interleavedData[interleavedOffset + 6] = tangents[tangentOffset];
+            interleavedData[interleavedOffset + 7] = tangents[tangentOffset + 1];
+            interleavedData[interleavedOffset + 8] = tangents[tangentOffset + 2];
+
+            // Texture Coordinates (UV)
+            interleavedData[interleavedOffset + 9] = texCoords[texCoordOffset];
+            interleavedData[interleavedOffset + 10] = texCoords[texCoordOffset + 1];
+        }
+
+        return interleavedData;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="vertices"></param>
+    /// <param name="indices"></param>
+    private void bindRenderObjects(float[] vertices, int[] indices)
+    {
+        if (_isInitialized) return;
+
+        VAO = GL.GenVertexArray();
+        VBO = GL.GenBuffer();
+        EBO = GL.GenBuffer();
+
+        GL.BindVertexArray(VAO);
+
+        // Upload vertex data
+        GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+        // Upload index data
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+        GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(int), indices, BufferUsageHint.StaticDraw);
+
+        // Define vertex attributes
+        int stride = 11 * sizeof(float);
+
+        // Position (location = 0)
+        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, stride, 0);
+        GL.EnableVertexAttribArray(0);
+
+        // Normal (location = 1)
+        GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, stride, 3 * sizeof(float));
+        GL.EnableVertexAttribArray(1);
+
+        // Tangent (location = 2)
+        GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
+        GL.EnableVertexAttribArray(2);
+
+        // Texture Coordinates (location = 3)
+        GL.VertexAttribPointer(3, 2, VertexAttribPointerType.Float, false, stride, 9 * sizeof(float));
+        GL.EnableVertexAttribArray(3);
+
+        GL.BindVertexArray(0);//TODO: is this needed?
+
+        GL.BindVertexArray(VAO);
+
+
+        _isInitialized = true;
     }
 }
