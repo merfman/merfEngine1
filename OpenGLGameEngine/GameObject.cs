@@ -32,24 +32,22 @@ public class GameObject : BaseObject
     /// <summary>
     /// List of <seealso cref="ScriptingComponent"/>.
     /// </summary>
-    public List<ScriptingComponent> Components;
+    public List<Component> Components;
     /// <summary>
     /// List of <seealso cref="Asset"/> stored as <seealso cref="WeakReference"/>.
     /// </summary>
     public List<WeakReference<Asset>> Assets;
     
 
-    public GameObject(RenderingLayer renderLayer = RenderingLayer.Default)
+    public GameObject()
     {
         //TODO: add required scene
 
         Transform = new Transform();
         
-
         // Initialize the empty lists
         Children = new List<WeakReference<GameObject>>();
-        Components = new List<ScriptingComponent>();
+        Components = new List<Component>();
         Assets = new List<WeakReference<Asset>>();
-
     }
 }

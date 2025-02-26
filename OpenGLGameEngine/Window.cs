@@ -18,6 +18,8 @@ internal class Window : GameWindow
     public Camera ActiveCamera;
 
     public Shader _testShader;
+    public GameObject _testGameObject;
+    public RenderComponent _testRenderComponent;
 
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
@@ -29,7 +31,9 @@ internal class Window : GameWindow
     {
         base.OnLoad();
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
-
+        _testGameObject = new GameObject();
+        _testRenderComponent = new RenderComponent(_testGameObject);
+        _testGameObject.Components.Add(_testRenderComponent);
 
         _renderer = new Render();
     }

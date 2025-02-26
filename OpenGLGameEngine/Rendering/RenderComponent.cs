@@ -33,13 +33,11 @@ public class RenderComponent : Component
     /// <remarks> RenderLayer as an enum came from a suggestion by ChatGPT. </remarks>
     public RenderingLayer RenderLayer;
     public GameObject RenderObject;
-    public Shader Shader;
 
 
-    public RenderComponent(GameObject renderObject, Shader shader, RenderingLayer renderLayer = RenderingLayer.Default)
+    public RenderComponent(GameObject renderObject, RenderingLayer renderLayer = RenderingLayer.Default)
     {
         RenderObject = renderObject;
-        this.Shader = shader;
         RenderLayer = renderLayer;
     }
 }
