@@ -51,8 +51,8 @@ public class Shader : Asset
 
     private static int CompileShader(string shaderPath, ShaderType shaderType)
     {
-        if (!File.Exists(shaderPath))
-            throw new FileNotFoundException($"Error: Shader not found {shaderPath}");
+        //if (!File.Exists(shaderPath))
+        //    throw new FileNotFoundException($"Error: Shader not found {shaderPath}");
 
         // Load and compile the shader
         string shaderSource = File.ReadAllText(shaderPath);
