@@ -8,21 +8,6 @@ using System.Threading.Tasks;
 
 namespace OpenGLGameEngine;
 /// <summary>
-/// 
-/// </summary>
-/// <remarks> RenderLayer came from a suggestion by ChatGPT. </remarks>
-public enum RenderingLayer
-{
-    /// <summary>
-    /// Special layer for non-rendered objects
-    /// </summary>
-    Hidden = -1,
-    /// <summary>
-    /// 
-    /// </summary>
-    Default = 0
-}
-/// <summary>
 /// Represents an versatile object that can have many purposes.
 /// </summary>
 public class GameObject : BaseObject
@@ -51,11 +36,7 @@ public class GameObject : BaseObject
     /// List of <seealso cref="Asset"/> stored as <seealso cref="WeakReference"/>.
     /// </summary>
     public List<WeakReference<Asset>> Assets;
-    /// <summary>
-    /// A <see cref="RenderingLayer"/> that determines when or if the <see cref="GameObject"/> is rendered.
-    /// </summary>
-    /// <remarks> RenderLayer as an enum came from a suggestion by ChatGPT. </remarks>
-    public RenderingLayer RenderLayer;
+    
 
     public GameObject(RenderingLayer renderLayer = RenderingLayer.Default)
     {
@@ -63,7 +44,6 @@ public class GameObject : BaseObject
 
         Transform = new Transform();
         
-        RenderLayer = RenderingLayer.Default;
 
         // Initialize the empty lists
         Children = new List<WeakReference<GameObject>>();
