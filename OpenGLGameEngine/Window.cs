@@ -11,7 +11,9 @@ using OpenTK.Windowing.Desktop;
 namespace OpenGLGameEngine;
 internal class Window : GameWindow
 {
-    private Render renderer = new Render();
+    private Render _renderer = new Render();
+
+    public Camera ActiveCamera;
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
         : base(gameWindowSettings, nativeWindowSettings)
@@ -29,6 +31,7 @@ internal class Window : GameWindow
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
+        _renderer.RenderFrame(ActiveCamera);
     }
 
     protected override void OnUpdateFrame(FrameEventArgs args)

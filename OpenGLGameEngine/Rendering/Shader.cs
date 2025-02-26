@@ -42,10 +42,7 @@ public class Shader : Asset
             GL.DetachShader(Handle, geometryShader);
             GL.DeleteShader(geometryShader);
         }
-
-
     }
-
     // A wrapper function that enables the shader program.
     public void Use()
     {

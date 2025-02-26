@@ -18,6 +18,12 @@ internal class Render
     /// </summary>
     List<GameObject> RenderList = new List<GameObject>();
 
+    public void RenderFrame(Camera camera)
+    {
+
+
+
+    }
 
 
 
