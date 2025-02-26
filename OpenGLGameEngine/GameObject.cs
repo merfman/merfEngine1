@@ -57,10 +57,18 @@ public class GameObject : BaseObject
     /// <remarks> RenderLayer as an enum came from a suggestion by ChatGPT. </remarks>
     public RenderingLayer RenderLayer;
 
-    public GameObject()
+    public GameObject(RenderingLayer renderLayer = RenderingLayer.Default)
     {
+        //TODO: add required scene
+
         Transform = new Transform();
         
         RenderLayer = RenderingLayer.Default;
+
+        // Initialize the empty lists
+        Children = new List<WeakReference<GameObject>>();
+        Components = new List<Component>();
+        Assets = new List<WeakReference<Asset>>();
+
     }
 }
