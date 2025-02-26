@@ -9,6 +9,23 @@ namespace OpenGLGameEngine.Rendering;
 /// <summary>
 /// 
 /// </summary>
+/// <remarks> RenderLayer came from a suggestion by ChatGPT. </remarks>
+public enum RenderingLayer
+{
+    /// <summary>
+    /// Special layer for non-rendered objects
+    /// </summary>
+    Hidden = -1,
+    /// <summary>
+    /// 
+    /// </summary>
+    Default = 0
+}
+
+/// <summary>
+/// 
+/// </summary>
+//TODO: maybe make this derive from component, or have a shared ancestry or something
 public class RenderComponent
 {
     /// <summary>
@@ -17,8 +34,8 @@ public class RenderComponent
     /// <remarks> RenderLayer as an enum came from a suggestion by ChatGPT. </remarks>
     public RenderingLayer RenderLayer;
 
-    public RenderComponent()
+    public RenderComponent(RenderingLayer renderLayer = RenderingLayer.Default)
     {
-        RenderLayer = RenderingLayer.Default;
+        RenderLayer = renderLayer;
     }
 }
