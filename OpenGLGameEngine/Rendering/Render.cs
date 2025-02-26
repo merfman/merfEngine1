@@ -7,6 +7,10 @@ using OpenGLGameEngine.Assets;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK.Windowing.Desktop;
+
 
 
 namespace OpenGLGameEngine.Rendering;
@@ -22,6 +26,17 @@ internal class Render
 
     public void AddToRenderList(ref RenderComponent gameObject) => RenderList.Add(gameObject);
     public void RemoveFromRenderList(ref RenderComponent gameObject) => RenderList.Remove(gameObject);
+
+    public Render()
+    {
+        GL.ClearColor(0.2f, 0.3f, 0.3f, 0.0f);
+
+        GL.Enable(EnableCap.DepthTest);
+
+        GL.Enable(EnableCap.CullFace);
+
+        GL.CullFace(CullFaceMode.Back);
+    }
 
     public void RenderFrame(Camera camera)
     {
