@@ -8,7 +8,7 @@ namespace OpenGLGameEngine.Mathmatics;
 /// <summary>
 /// 
 /// </summary>
-internal class Transform : BaseObject
+public class Transform : BaseObject
 {
 
 }

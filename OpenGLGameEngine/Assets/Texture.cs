@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenGLGameEngine.Asset;
+namespace OpenGLGameEngine.Assets;
 public class Texture : Asset
 {
     public int Handle; // OpenGL 2d texture handle

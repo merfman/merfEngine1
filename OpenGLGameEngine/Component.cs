@@ -8,7 +8,7 @@ namespace OpenGLGameEngine;
 /// <summary>
 /// 
 /// </summary>
-internal class Component : BaseObject
+public class Component : BaseObject
 {
 
 }

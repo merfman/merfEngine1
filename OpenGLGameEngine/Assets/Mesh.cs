@@ -8,7 +8,7 @@ using OpenTK.Mathematics;
 using OpenTK;
 using OpenTK.Graphics.ES30;
 
-namespace OpenGLGameEngine.Asset;
+namespace OpenGLGameEngine.Assets;
 
 /// <summary>
 /// Holds Mesh Data

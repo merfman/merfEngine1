@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLGameEngine.Asset;
+namespace OpenGLGameEngine.Assets;
 public abstract class Asset : BaseObject
 {
     public string Path { get; private set; }

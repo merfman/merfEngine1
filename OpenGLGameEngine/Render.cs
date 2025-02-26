@@ -11,12 +11,16 @@ namespace OpenGLGameEngine;
 /// <summary>
 /// Handles all the rendering. Not static so it can support multiple windows. 
 /// </summary>
-internal class Render
+internal class Render 
 {
     /// <summary>
     /// List of GameObjects that are rendered
     /// </summary>
     List<GameObject> RenderList = new List<GameObject>();
+
+
+
+
 
 
 

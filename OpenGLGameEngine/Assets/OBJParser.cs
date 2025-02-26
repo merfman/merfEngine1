@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
-namespace OpenGLGameEngine.Asset;
+namespace OpenGLGameEngine.Assets;
 
 /// <summary>
 /// A simple parser for loading Wavefront .OBJ files into vertex, index, normal, and texture coordinate arrays.
