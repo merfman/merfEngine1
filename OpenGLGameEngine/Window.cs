@@ -26,6 +26,9 @@ internal class Window : GameWindow
     public Material _testMaterial;
     public Mesh _testMesh;
 
+    private bool _firstMove = true;
+    private Vector2 _lastPos;
+
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
         : base(gameWindowSettings, nativeWindowSettings)
@@ -57,6 +60,7 @@ internal class Window : GameWindow
     {
         base.OnRenderFrame(args);
         _renderer.RenderFrame(ActiveCamera);
+        SwapBuffers();
     }
 
     protected override void OnUpdateFrame(FrameEventArgs args)
@@ -79,8 +83,30 @@ internal class Window : GameWindow
         if (input.IsKeyDown(Keys.D)) ActiveCamera.Transform.Position += ActiveCamera.Transform.Right * cameraSpeed * (float)args.Time; // Right
         if (input.IsKeyDown(Keys.Space)) ActiveCamera.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
         if (input.IsKeyDown(Keys.LeftControl)) ActiveCamera.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
+        if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; // Down
 
+        Console.SetCursorPosition(0, 15);
         Console.WriteLine(ActiveCamera.Transform.Position.ToString());
+        Console.SetCursorPosition(0, 16);
+        Console.WriteLine(ActiveCamera.Transform.Rotation.ToString());
+
+
+        var mouse = MouseState;
+
+        if (_firstMove)
+        {
+            _lastPos = new Vector2(mouse.X, mouse.Y);
+            _firstMove = false;
+        }
+        else
+        {
+            var deltaX = mouse.X - _lastPos.X;
+            var deltaY = mouse.Y - _lastPos.Y;
+            _lastPos = new Vector2(mouse.X, mouse.Y);
+
+            ActiveCamera.Transform.Yaw += deltaX * sensitivity;
+            ActiveCamera.Transform.Pitch = MathHelper.Clamp(ActiveCamera.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
+        }
 
     }
 }
