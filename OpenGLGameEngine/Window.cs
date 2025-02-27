@@ -51,6 +51,9 @@ internal class Window : GameWindow
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
 
         _renderer = new Render();
+
+        _renderer.AddToRenderList(ref _testRenderComponent);
+        
     }
     protected override void OnUnload()
     {
