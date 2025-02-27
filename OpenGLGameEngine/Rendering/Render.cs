@@ -53,8 +53,6 @@ internal class Render
                             if (mesh.Material.TryGetTarget(out Material? material))
                                 if (material.Shader.TryGetTarget(out Shader? shader))
                                 {
-                                    
-
                                     shader.SetMatrix4("view", camera.GetViewMatrix());
 
                                     shader.SetMatrix4("projection", camera.GetProjectionMatrix()); 

@@ -16,6 +16,8 @@ using static System.Net.Mime.MediaTypeNames;
 namespace OpenGLGameEngine;
 internal class Window : GameWindow
 {
+    private (int left, int top) _consoleCurrentLine;
+
     private Render _renderer;
 
     public CameraComponent ActiveCamera;
@@ -30,7 +32,6 @@ internal class Window : GameWindow
 
     private bool _firstMove = true;
     private Vector2 _lastPos;
-
 
     public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
         : base(gameWindowSettings, nativeWindowSettings)
@@ -95,10 +96,12 @@ internal class Window : GameWindow
         if (input.IsKeyDown(Keys.LeftControl)) ActiveCamera.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
         if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; // Down
 
-        Console.SetCursorPosition(0, 15);
+        _consoleCurrentLine = Console.GetCursorPosition();
+        Console.SetCursorPosition(0, Console.WindowHeight - 1);
         Console.WriteLine(ActiveCamera.Transform.Position.ToString());
-        Console.SetCursorPosition(0, 16);
+        Console.SetCursorPosition(0, Console.WindowHeight);
         Console.WriteLine(ActiveCamera.Transform.Rotation.ToString());
+        Console.SetCursorPosition(_consoleCurrentLine.left, _consoleCurrentLine.top);
 
 
         var mouse = MouseState;
