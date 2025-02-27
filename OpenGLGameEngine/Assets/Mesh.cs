@@ -41,6 +41,10 @@ internal class Mesh : Asset
     /// </summary>
     public float[] BoneWeights;
 
+    /// <summary>
+    /// The <see cref="Material"/> that will display on the <see cref="Mesh"/>.
+    /// </summary>
+    public WeakReference<Material> Material;
 
     /// <summary>
     /// Stores the Vertex Array Object.
@@ -54,10 +58,15 @@ internal class Mesh : Asset
     /// Stores the Element Buffer Object.
     /// </summary>
     public int EBO;
+    /// <summary>
+    /// Stores the Vertex Count for use when drawing.
+    /// </summary>
+    public int VertexCount;
 
-    public Mesh(string path, string? name = null)
+    public Mesh(string path, Material? material, string? name = null)
     {
         if (name == null) Name = System.IO.Path.GetFileName(path);
+        Material = new WeakReference<Material>(material);
         LoadFromFile(path);
     }
 
@@ -147,6 +156,8 @@ internal class Mesh : Asset
     private void bindRenderObjects(float[] vertices, int[] indices)
     {
         if (_isInitialized) return;
+
+        VertexCount = vertices.Length;
 
         VAO = GL.GenVertexArray();
         VBO = GL.GenBuffer();

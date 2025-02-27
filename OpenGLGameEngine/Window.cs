@@ -38,8 +38,8 @@ internal class Window : GameWindow
         _testGameObject.Components.Add(_testRenderComponent);
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
         _testMaterial = new Material(_testShader);
-        _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"));
-        _testGameObject.Assets.Add(new WeakReference<Asset>(_testMaterial));
+        _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);
+        //_testGameObject.Assets.Add(new WeakReference<Asset>(_testMaterial));
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
 
         _renderer = new Render();
