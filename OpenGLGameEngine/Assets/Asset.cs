@@ -13,6 +13,6 @@ public abstract class Asset : BaseObject
 
     public virtual void LoadFromFile(string path)
     {
-
+        Console.WriteLine($"Loading File {path}");
     }
 }

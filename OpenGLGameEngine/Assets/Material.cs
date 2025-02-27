@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace OpenGLGameEngine.Assets;
 public class Material : Asset
 {
-    public required WeakReference<Shader> Shader;
+    public WeakReference<Shader> Shader;
 
     public WeakReference<Texture>? ColorMap;
     public WeakReference<Texture>? NormalMap;
@@ -23,8 +23,10 @@ public class Material : Asset
 
     public Material(Shader shader)
     {
-        Shader = new WeakReference<Shader>(shader);
         BaseColor = new Color4(127.0f, 127.0f, 127.0f, 255.0f);
+        //shader.set
+        //set Shader settings here
+        Shader = new WeakReference<Shader>(shader);
     }
     public override void LoadFromFile(string path)
     {

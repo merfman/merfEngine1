@@ -5,7 +5,7 @@ in vec3 Normal;
 in vec3 Tangent;
 in vec2 TexCoord;
 
-out vec4 FragColor;
+out vec4 FragColor; 
 
 uniform sampler2D textureSampler;
 

@@ -63,15 +63,16 @@ internal class Mesh : Asset
 
     public override void LoadFromFile(string path)
     {
-        Console.WriteLine($"Loading File {path}");
+        base.LoadFromFile(path);
         (float[] vertexData, int[] faceIndices, float[] normals, float[] tangentData, float[] textureCoords) = OBJParser.Parse(path);
 
         bindRenderObjects(InterleaveData(vertexData, normals, tangentData, textureCoords), faceIndices);
-
+        
         List<Vector3> VerPoss, norms;
         VerPoss = norms = new List<Vector3>();
         List<Vector2> uv = new List<Vector2>();
         List<int[]> faceIndices2 = new List<int[]>();
+        UV = new List<Vector2[]>();
 
         for (int i = 2; i < vertexData.Length; i += 3)
         {
