@@ -114,4 +114,16 @@ public class Shader : Asset
         GL.Uniform3(location, vector);
     }
 
+    public void SetSampler2D(string name, Texture texture, int textureUnit = 0)
+    {
+        GL.ActiveTexture(TextureUnit.Texture0 + textureUnit); // Activate correct texture unit
+        GL.BindTexture(TextureTarget.Texture2D, texture.Handle); // Bind the texture
+
+        int location = GL.GetUniformLocation(Handle, name);
+        if (location != -1) // Ensure uniform exists
+        {
+            GL.Uniform1(location, textureUnit); // Set the sampler2D uniform to use this texture unit
+        }
+    }
+
 }

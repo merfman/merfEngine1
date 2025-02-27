@@ -38,7 +38,6 @@ public class GameObject : BaseObject
     /// </summary>
     public List<WeakReference<Asset>> Assets;
     
-
     public GameObject()
     {
         //TODO: add required scene

@@ -43,6 +43,7 @@ internal class Window : GameWindow
         ActiveCamera = new Camera(new Vector3()/*Vector3.UnitZ * 3*/, Size.X / (float)Size.Y);
 
         _testGameObject = new GameObject();
+        _testGameObject.Transform.Pitch = 25;
         _testRenderComponent = new RenderComponent(_testGameObject);
         _testGameObject.Components.Add(_testRenderComponent);
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
@@ -66,6 +67,7 @@ internal class Window : GameWindow
     {
         base.OnRenderFrame(args);
         _renderer.RenderFrame(ActiveCamera);
+        
         SwapBuffers();
     }
 

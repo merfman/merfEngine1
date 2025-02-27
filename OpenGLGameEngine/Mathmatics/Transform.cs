@@ -15,11 +15,11 @@ namespace OpenGLGameEngine.Mathmatics;
 /// <remarks> Copy/Pasted from last project, intend on replacing with new one</remarks>
 public class Transform : BaseObject
 { 
-    private Vector3 _position;
+    private Vector3 _position = new Vector3(0, 0, 0);//TODO: move the initilaization to the constructor
 
-    private Vector3 _scale;
+    private Vector3 _scale = new Vector3(1, 1, 1);
 
-    private Quaternion _rotation;
+    private Quaternion _rotation = new Quaternion(0, 0, 0, 1);
 
     // direction pointing frontwards from the Transform
     private Vector3 _front = -Vector3.UnitZ;
@@ -41,8 +41,8 @@ public class Transform : BaseObject
 
 
     public Transform() { }
-    public Transform(Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null) => 
-        (Position, Rotation, Scale) = (position ?? Vector3.Zero, rotation ?? Quaternion.Identity, scale ?? Vector3.One);
+    public Transform(Vector3? position, Quaternion? rotation = null, Vector3? scale = null) => 
+        (Position, Rotation, Scale) = (position ?? Vector3.Zero, rotation ?? new Quaternion(0, 0, 0, 1), scale ?? new Vector3(1, 1, 1));
     public Transform(Vector3? position = null, Vector3? rotation = null, Vector3? scale = null) =>
         (Position, Rotation, Scale) = (position ?? Vector3.Zero, Quaternion.FromEulerAngles(rotation ?? Vector3.Zero) , scale ?? Vector3.One);
 

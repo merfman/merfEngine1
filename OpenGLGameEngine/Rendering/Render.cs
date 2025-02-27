@@ -24,8 +24,17 @@ internal class Render
     /// </summary>
     List<RenderComponent> RenderList = new List<RenderComponent>();
 
-    public void AddToRenderList(ref RenderComponent gameObject) => RenderList.Add(gameObject);
-    public void RemoveFromRenderList(ref RenderComponent gameObject) => RenderList.Remove(gameObject);
+    public void AddToRenderList(ref RenderComponent gameObject)
+    {
+        RenderList.Add(gameObject);
+        Console.WriteLine($"Added to RenderQueue: {gameObject}");
+    }
+
+    public void RemoveFromRenderList(ref RenderComponent gameObject)
+    {
+        RenderList.Remove(gameObject);
+        Console.WriteLine($"Removed From RenderQueue: {gameObject}");
+    }
 
     public Render()
     {
@@ -54,7 +63,6 @@ internal class Render
                                 if (material.Shader.TryGetTarget(out Shader? shader))
                                 {
                                     
-
                                     shader.SetMatrix4("view", camera.GetViewMatrix());
 
                                     shader.SetMatrix4("projection", camera.GetProjectionMatrix()); 
@@ -68,13 +76,10 @@ internal class Render
                                     shader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
                                     shader.Use();
 
-                                    if (material.ColorMap.TryGetTarget(out Texture? colorMap))
-                                    {
-                                        //colorMap.Use(TextureUnit.Texture0);
-                                        GL.ActiveTexture(TextureUnit.Texture0); // Activate texture unit 0
-                                        GL.BindTexture(TextureTarget.Texture2D, 0); // Bind the texture
-                                        shader.SetInt("textureSampler", 0); // Tell the shader to use texture unit 0
-                                    }
+                                    // if (material.ColorMap.TryGetTarget(out Texture? colorMap))
+                                    // {
+                                    //     shader.SetSampler2D("textureSampler", colorMap, 0);
+                                    // }
 
                                     Matrix4 model = Matrix4.CreateTranslation(new Vector3(0.0f));
                                     model *= Matrix4.CreateFromQuaternion(component.RenderObject.Transform.Rotation);

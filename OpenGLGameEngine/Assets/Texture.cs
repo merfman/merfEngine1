@@ -18,7 +18,7 @@ public class Texture : Asset
     public int Height;
     public PixelInternalFormat Format;
     public TextureWrapMode WrapMode;
-    public static Texture LoadFromFile(string path)
+    public static Texture LoadFromFile(string path) //TODO: fix the weird structure of this class
     {
         // Generate handle
         int handle = GL.GenTexture();
