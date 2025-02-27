@@ -20,11 +20,8 @@ public abstract class ScriptingComponent : Component
     public virtual GameObject Instantiate(Vector3 position, Quaternion rotation, Vector3 size) => new GameObject();
     public virtual GameObject Instantiate(Transform transform) => new GameObject();
 
-    public void AddComponent<T>() { }
-    
-    public ScriptingComponent GetComponent<T>()
-    {
-        return this;
-    }
+    public ScriptingComponent(GameObject gameObject) : 
+        base(gameObject) { }
+
     public void Destroy() { }
 }
