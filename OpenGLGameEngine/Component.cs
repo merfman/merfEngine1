@@ -19,4 +19,9 @@ public abstract class Component : BaseObject
     /// A reference to the parent <see cref="GameObject"/>.
     /// </summary>
     public GameObject GameObject { get; set; }
+
+    public Component(GameObject gameObject)
+    {
+        GameObject = gameObject;
+    }
 }

@@ -23,9 +23,9 @@ public class CameraComponent : Component
     /// <summary>
     /// Creates a <see cref="CameraComponent"/> with a reference to a <see cref="GameObject"/> and an Aspect Ratio.
     /// </summary>
-    /// <param name="parentGameObject"> The GameObject this is a component to.</param>
+    /// <param name="gameObject"> The GameObject this is a component to.</param>
     /// <param name="aspectRatio"> The ratio of the Camera's width and Height. </param>
-    public CameraComponent(GameObject parentGameObject, float aspectRatio)
+    public CameraComponent(GameObject gameObject, float aspectRatio) : base(gameObject)
     {
         AspectRatio = aspectRatio;
     }

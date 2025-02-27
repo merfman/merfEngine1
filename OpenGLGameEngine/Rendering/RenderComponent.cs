@@ -34,10 +34,9 @@ public class RenderComponent : Component
     public RenderingLayer RenderLayer;
     //public GameObject RenderObject; // Component has a reference to the GameObject
 
-    public RenderComponent(GameObject renderObject, RenderingLayer renderLayer = RenderingLayer.Default)
+    public RenderComponent(GameObject gameObject, RenderingLayer renderLayer = RenderingLayer.Default) 
+        : base(gameObject)
     {
-        //RenderObject = renderObject;
-        this.GameObject = renderObject;
         RenderLayer = renderLayer;
     }
 }

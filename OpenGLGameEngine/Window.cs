@@ -19,6 +19,7 @@ internal class Window : GameWindow
     private Render _renderer;
 
     public CameraComponent ActiveCamera;
+    public GameObject CameraObject;
 
     public Shader _testShader;
     public GameObject _testGameObject;
@@ -40,7 +41,8 @@ internal class Window : GameWindow
     {
         base.OnLoad();
 
-        ActiveCamera = new CameraComponent(new Vector3()/*Vector3.UnitZ * 3*/, Size.X / (float)Size.Y);
+        CameraObject = new GameObject();
+        ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
         _testGameObject = new GameObject();
         _testGameObject.Transform.Pitch = 25;
