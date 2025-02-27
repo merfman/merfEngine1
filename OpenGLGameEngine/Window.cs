@@ -46,6 +46,7 @@ internal class Window : GameWindow
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
         _testGameObject = new GameObject();
+        _testGameObject.Transform.Yaw = 90;
         _testGameObject.Transform.Pitch = 25;
         _testRenderComponent = new RenderComponent(_testGameObject);
         _testGameObject.Components.Add(_testRenderComponent);

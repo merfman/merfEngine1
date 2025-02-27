@@ -26,6 +26,21 @@ public class Material : Asset
         BaseColor = new Color4(127.0f, 127.0f, 127.0f, 255.0f);
         //shader.set
         //set Shader settings here
+
+        if (ColorMap != null && ColorMap.TryGetTarget(out Texture? colorMap)) 
+            shader.SetSampler2D("textureSampler", colorMap, 0);
+        if (NormalMap != null && NormalMap.TryGetTarget(out Texture? normalMap))
+            shader.SetSampler2D("textureSampler", normalMap, 0);
+        if (AOMap != null && AOMap.TryGetTarget(out Texture? aoMap))
+            shader.SetSampler2D("textureSampler", aoMap, 0);
+        if (RoughnessMap != null && RoughnessMap.TryGetTarget(out Texture? roughnessMap))
+            shader.SetSampler2D("textureSampler", roughnessMap, 0);
+
+        shader.SetInt("material.diffuse", 0);
+        shader.SetInt("material.specular", 1);
+        shader.SetInt("material.normal", 2);
+        shader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
+
         Shader = new WeakReference<Shader>(shader);
     }
     public override void LoadFromFile(string path)

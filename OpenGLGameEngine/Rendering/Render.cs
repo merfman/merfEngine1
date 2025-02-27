@@ -59,17 +59,7 @@ internal class Render
 
                                     shader.SetVector3("viewPos", camera.GameObject.Transform.Position);
 
-                                    //shader.set
-                                    shader.SetInt("material.diffuse", 0);
-                                    shader.SetInt("material.specular", 1);
-                                    shader.SetInt("material.normal", 2);
-                                    shader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
                                     shader.Use();
-
-                                    if (material.ColorMap.TryGetTarget(out Texture? colorMap))
-                                    {
-                                        shader.SetSampler2D("textureSampler", colorMap, 0);
-                                    }
 
                                     Matrix4 model = Matrix4.CreateTranslation(new Vector3(0.0f));
                                     model *= Matrix4.CreateFromQuaternion(component.GameObject.Transform.Rotation);
