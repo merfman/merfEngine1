@@ -9,11 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.9.3" />
+    <PackageReference Include="StbImageSharp" Version="2.30.15" />
     <PackageReference Include="System.ObjectModel" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Resources\Meshes\" />
+    <Folder Include="Resources\Textures\" />
     <Folder Include="Resources\Shaders\" />
   </ItemGroup>
 

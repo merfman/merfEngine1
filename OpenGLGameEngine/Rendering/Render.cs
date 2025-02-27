@@ -59,6 +59,7 @@ internal class Render
 
                                     shader.SetVector3("viewPos", camera.Transform.Position);
 
+                                    shader.set
                                     shader.SetInt("material.diffuse", 0);
                                     shader.SetInt("material.specular", 1);
                                     shader.SetInt("material.normal", 2);
