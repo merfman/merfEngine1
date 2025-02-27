@@ -68,10 +68,7 @@ internal class Render
 
                                     if (material.ColorMap.TryGetTarget(out Texture? colorMap))
                                     {
-                                        //colorMap.Use(TextureUnit.Texture0);
-                                        GL.ActiveTexture(TextureUnit.Texture0); // Activate texture unit 0
-                                        GL.BindTexture(TextureTarget.Texture2D, 0); // Bind the texture
-                                        shader.SetInt("textureSampler", 0); // Tell the shader to use texture unit 0
+                                        shader.SetSampler2D("textureSampler", colorMap, 0);
                                     }
 
                                     Matrix4 model = Matrix4.CreateTranslation(new Vector3(0.0f));
