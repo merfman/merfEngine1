@@ -23,7 +23,7 @@ public enum RenderingLayer
 }
 
 /// <summary>
-/// 
+/// <see cref="Component"/> that can be added to a <see cref="GameObject"/> that holds render settings and can be sent to <see cref="Render"/> to be rendered.
 /// </summary>
 public class RenderComponent : Component
 {
@@ -32,12 +32,12 @@ public class RenderComponent : Component
     /// </summary>
     /// <remarks> RenderLayer as an enum came from a suggestion by ChatGPT. </remarks>
     public RenderingLayer RenderLayer;
-    public GameObject RenderObject;
-
+    //public GameObject RenderObject; // Component has a reference to the GameObject
 
     public RenderComponent(GameObject renderObject, RenderingLayer renderLayer = RenderingLayer.Default)
     {
-        RenderObject = renderObject;
+        //RenderObject = renderObject;
+        this.GameObject = renderObject;
         RenderLayer = renderLayer;
     }
 }

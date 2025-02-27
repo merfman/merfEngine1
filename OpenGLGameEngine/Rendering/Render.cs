@@ -24,17 +24,8 @@ internal class Render
     /// </summary>
     List<RenderComponent> RenderList = new List<RenderComponent>();
 
-    public void AddToRenderList(ref RenderComponent gameObject)
-    {
-        RenderList.Add(gameObject);
-        Console.WriteLine($"Added to RenderQueue: {gameObject}");
-    }
-
-    public void RemoveFromRenderList(ref RenderComponent gameObject)
-    {
-        RenderList.Remove(gameObject);
-        Console.WriteLine($"Removed From RenderQueue: {gameObject}");
-    }
+    public void AddToRenderList(ref RenderComponent gameObject) => RenderList.Add(gameObject);
+    public void RemoveFromRenderList(ref RenderComponent gameObject) => RenderList.Remove(gameObject);
 
     public Render()
     {
@@ -47,13 +38,13 @@ internal class Render
         GL.CullFace(CullFaceMode.Back);
     }
 
-    public void RenderFrame(Camera camera)
+    public void RenderFrame(CameraComponent camera)
     {
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         foreach (RenderComponent component in RenderList)
             if (component.RenderLayer != RenderingLayer.Hidden)
             {
-                foreach (WeakReference<Asset> weakRefAsset in component.RenderObject.Assets)
+                foreach (WeakReference<Asset> weakRefAsset in component.GameObject.Assets)
                     if (weakRefAsset.TryGetTarget(out Asset? asset))
                     {
                         if (asset is Mesh mesh)
@@ -63,11 +54,12 @@ internal class Render
                                 if (material.Shader.TryGetTarget(out Shader? shader))
                                 {
                                     
+
                                     shader.SetMatrix4("view", camera.GetViewMatrix());
 
                                     shader.SetMatrix4("projection", camera.GetProjectionMatrix()); 
 
-                                    shader.SetVector3("viewPos", camera.Transform.Position);
+                                    shader.SetVector3("viewPos", camera.GameObject.Transform.Position);
 
                                     //shader.set
                                     shader.SetInt("material.diffuse", 0);
@@ -76,15 +68,18 @@ internal class Render
                                     shader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
                                     shader.Use();
 
-                                    // if (material.ColorMap.TryGetTarget(out Texture? colorMap))
-                                    // {
-                                    //     shader.SetSampler2D("textureSampler", colorMap, 0);
-                                    // }
+                                    if (material.ColorMap.TryGetTarget(out Texture? colorMap))
+                                    {
+                                        //colorMap.Use(TextureUnit.Texture0);
+                                        GL.ActiveTexture(TextureUnit.Texture0); // Activate texture unit 0
+                                        GL.BindTexture(TextureTarget.Texture2D, 0); // Bind the texture
+                                        shader.SetInt("textureSampler", 0); // Tell the shader to use texture unit 0
+                                    }
 
                                     Matrix4 model = Matrix4.CreateTranslation(new Vector3(0.0f));
-                                    model *= Matrix4.CreateFromQuaternion(component.RenderObject.Transform.Rotation);
-                                    model *= Matrix4.CreateScale(component.RenderObject.Transform.Scale);
-                                    model *= Matrix4.CreateTranslation(component.RenderObject.Transform.Position);
+                                    model *= Matrix4.CreateFromQuaternion(component.GameObject.Transform.Rotation);
+                                    model *= Matrix4.CreateScale(component.GameObject.Transform.Scale);
+                                    model *= Matrix4.CreateTranslation(component.GameObject.Transform.Position);
                                     shader.SetMatrix4("model", model);
 
                                     GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.VertexCount);
