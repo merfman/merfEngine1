@@ -25,6 +25,7 @@ internal class Window : GameWindow
     public RenderComponent _testRenderComponent;
     public Material _testMaterial;
     public Mesh _testMesh;
+    public Texture _testTexture;
 
     private bool _firstMove = true;
     private Vector2 _lastPos;
@@ -47,6 +48,8 @@ internal class Window : GameWindow
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
         _testMaterial = new Material(_testShader);
         _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);
+        _testTexture = Texture.LoadFromFile(PathH.GetRelative(@"Resources\Textures\container2.png"));
+        _testMaterial.ColorMap = new WeakReference<Texture>(_testTexture);
         //_testGameObject.Assets.Add(new WeakReference<Asset>(_testMaterial));
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
 

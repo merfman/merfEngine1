@@ -53,18 +53,28 @@ internal class Render
                             if (mesh.Material.TryGetTarget(out Material? material))
                                 if (material.Shader.TryGetTarget(out Shader? shader))
                                 {
+                                    
+
                                     shader.SetMatrix4("view", camera.GetViewMatrix());
 
                                     shader.SetMatrix4("projection", camera.GetProjectionMatrix()); 
 
                                     shader.SetVector3("viewPos", camera.Transform.Position);
 
-                                    shader.set
+                                    //shader.set
                                     shader.SetInt("material.diffuse", 0);
                                     shader.SetInt("material.specular", 1);
                                     shader.SetInt("material.normal", 2);
                                     shader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
                                     shader.Use();
+
+                                    if (material.ColorMap.TryGetTarget(out Texture? colorMap))
+                                    {
+                                        //colorMap.Use(TextureUnit.Texture0);
+                                        GL.ActiveTexture(TextureUnit.Texture0); // Activate texture unit 0
+                                        GL.BindTexture(TextureTarget.Texture2D, 0); // Bind the texture
+                                        shader.SetInt("textureSampler", 0); // Tell the shader to use texture unit 0
+                                    }
 
                                     Matrix4 model = Matrix4.CreateTranslation(new Vector3(0.0f));
                                     model *= Matrix4.CreateFromQuaternion(component.RenderObject.Transform.Rotation);
