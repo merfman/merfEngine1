@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Meshes\" />
     <Folder Include="Resources\Textures\" />
     <Folder Include="Resources\Shaders\" />
   </ItemGroup>
