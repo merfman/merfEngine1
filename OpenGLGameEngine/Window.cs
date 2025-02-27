@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using OpenGLGameEngine.Assets;
 using OpenGLGameEngine.Rendering;
 using OpenTK;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace OpenGLGameEngine;
@@ -33,6 +35,9 @@ internal class Window : GameWindow
     protected override void OnLoad()
     {
         base.OnLoad();
+
+        ActiveCamera = new Camera(new Vector3()/*Vector3.UnitZ * 3*/, Size.X / (float)Size.Y);
+
         _testGameObject = new GameObject();
         _testRenderComponent = new RenderComponent(_testGameObject);
         _testGameObject.Components.Add(_testRenderComponent);
@@ -57,5 +62,25 @@ internal class Window : GameWindow
     protected override void OnUpdateFrame(FrameEventArgs args)
     {
         base.OnUpdateFrame(args);
+
+        if (!IsFocused) return;
+
+        var input = KeyboardState;
+
+        if (input.IsKeyDown(Keys.Escape)) Close();
+
+        float cameraSpeed = 1.5f;
+        float sensitivity = 0.2f;
+
+        if (input.IsKeyDown(Keys.LeftShift)) cameraSpeed = 3.5f;
+        if (input.IsKeyDown(Keys.W)) ActiveCamera.Transform.Position += ActiveCamera.Transform.Front * cameraSpeed * (float)args.Time; // Forward
+        if (input.IsKeyDown(Keys.S)) ActiveCamera.Transform.Position -= ActiveCamera.Transform.Front * cameraSpeed * (float)args.Time; // Backwards
+        if (input.IsKeyDown(Keys.A)) ActiveCamera.Transform.Position -= ActiveCamera.Transform.Right * cameraSpeed * (float)args.Time; // Left
+        if (input.IsKeyDown(Keys.D)) ActiveCamera.Transform.Position += ActiveCamera.Transform.Right * cameraSpeed * (float)args.Time; // Right
+        if (input.IsKeyDown(Keys.Space)) ActiveCamera.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
+        if (input.IsKeyDown(Keys.LeftControl)) ActiveCamera.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
+
+        Console.WriteLine(ActiveCamera.Transform.Position.ToString());
+
     }
 }
