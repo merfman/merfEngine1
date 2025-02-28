@@ -14,15 +14,15 @@ public class CameraComponent : Component
 {
     // The field of view of the camera (radians)
     private float _fov = MathHelper.PiOver2;
-
-    /// <summary>
-    /// The Camera <see cref="Mathmatics.Transform"/>. (note: this just gets the parent <see cref="GameObject"/>'s <see cref="Mathmatics.Transform"/>, this holds no data so it is always synced)
-    /// </summary>
-    public Transform Transform
-    {
-        get => GameObject.Transform;
-        set => GameObject.Transform = value;
-    } 
+       
+    // /// <summary>
+    // /// The Camera <see cref="Mathmatics.Transform"/>. (note: this just gets the parent <see cref="GameObject"/>'s <see cref="Mathmatics.Transform"/>, this holds no data so it is always synced)
+    // /// </summary>
+    // public Transform Transform
+    // {
+    //     get => GameObject.Transform;
+    //     set => GameObject.Transform = value;
+    // } 
 
     /// <summary>
     /// Creates a <see cref="CameraComponent"/> with a reference to a <see cref="GameObject"/> and an Aspect Ratio.

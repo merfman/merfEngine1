@@ -9,17 +9,26 @@ using static System.Formats.Asn1.AsnWriter;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace OpenGLGameEngine.Mathmatics;
+public enum TransformChangeType
+{
+    Position,
+    Rotation,
+    Scale
+
+}
 /// <summary>
 /// 
 /// </summary>
 /// <remarks> Copy/Pasted from last project, intend on replacing with new one</remarks>
 public class Transform : BaseObject
-{ 
-    private Vector3 _position = new Vector3(0, 0, 0);//TODO: move the initilaization to the constructor
+{
+    public event Action<Vector3, Quaternion, Vector3>? OnTransformChanged; // Event triggered when Transform changed
 
-    private Vector3 _scale = new Vector3(1, 1, 1);
+    private Vector3 _position = new Vector3(0, 0, 0); //TODO: move the initilaization to the constructor
 
     private Quaternion _rotation = new Quaternion(0, 0, 0, 1);
+
+    private Vector3 _scale = new Vector3(1, 1, 1);
 
     // direction pointing frontwards from the Transform
     private Vector3 _front = -Vector3.UnitZ;
@@ -49,13 +58,18 @@ public class Transform : BaseObject
     public Vector3 Position
     {
         get => _position;
-        set => _position = value;
+        set
+        {
+            OnTransformChanged?.Invoke(_position, Rotation, Scale);
+            _position = value;
+        }
     }
     public Quaternion Rotation
     {
         get => _rotation;
         set
         {
+            OnTransformChanged?.Invoke(Position, _rotation, Scale);
             _rotation = value;
             UpdateVectors();
             UpdateEulerAngles();
@@ -64,7 +78,11 @@ public class Transform : BaseObject
     public Vector3 Scale
     {
         get => _scale;
-        set => _scale = value;
+        set
+        {
+            OnTransformChanged?.Invoke(Position, Rotation, Scale);
+            _scale = value;
+        }
     }
 
     public Vector3 Front => _front;
@@ -77,6 +95,7 @@ public class Transform : BaseObject
         get => MathHelper.RadiansToDegrees(_pitch);
         set
         {
+            OnTransformChanged?.Invoke(Position, _rotation, Scale); 
             _pitch = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
@@ -88,21 +107,32 @@ public class Transform : BaseObject
         get => MathHelper.RadiansToDegrees(_yaw);
         set
         {
+            OnTransformChanged?.Invoke(Position, _rotation, Scale);
             _yaw = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
         }
     }
+
     public float Roll
     {
         get => MathHelper.RadiansToDegrees(_roll);
         set
         {
+            OnTransformChanged?.Invoke(Position, _rotation, Scale);
             _roll = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
         }
     }
+
+    public static Transform operator +(Transform parent, Transform child)
+    {
+        Transform transform = new Transform();
+
+        return transform;
+    }
+
 
     //called when any Euler Angles change, this makes sure the Quaternion stays synced
     private void UpdateQuaternion() => _rotation = Quaternion.FromEulerAngles(_pitch, _yaw, _roll);
@@ -127,5 +157,5 @@ public class Transform : BaseObject
         _up = Vector3.Normalize(Vector3.Cross(_right, _front));
     }
 
-    public Matrix4 GetLookAtMatrix() => Matrix4.LookAt(_position, _position + _front, _up);
+    public Matrix4 GetLookAtMatrix() => Matrix4.LookAt(Position, Position + Front, Up);
 }

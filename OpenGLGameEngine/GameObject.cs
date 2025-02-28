@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.Numerics;
+using OpenTK.Mathematics;
 
 namespace OpenGLGameEngine;
 /// <summary>
@@ -16,12 +18,42 @@ public class GameObject : BaseObject
     //
     private List<Component> _components;
 
-    private List<WeakReference<GameObject>> _children;//TODO: make child GameObjects also transform (and other stuff) when parent ones do (make the child ones also change when the parents do etc.)
+    private List<WeakReference<GameObject>> _children; //TODO: make child GameObjects also transform (and other stuff) when parent ones do (make the child ones also change when the parents do etc.)
+
+    private Transform _localTransform;
+    private Transform _globalTransform;
 
     /// <summary>
     /// Holds the position, rotation and scale information as a <see cref="Mathmatics.Transform"/>.
     /// </summary>
-    public Transform Transform;
+    public Transform Transform
+    {
+        get => _globalTransform;
+        set
+        {
+            _localTransform = value;
+            _globalTransform.OnTransformChanged += OnTransformChanged;
+        }
+    }
+
+    private void OnTransformChanged(Vector3 position, Quaternion rotation, Vector3 scale)
+    {
+        // This should recursively loop through all children and change the transform with the parent
+        if (_children != null)
+            foreach (var childRef in _children)
+                if (childRef.TryGetTarget(out GameObject? child))
+                {
+                    child.Transform.Position -= position;
+                    child.Transform.Rotation -= rotation;
+                    child.Transform.Scale -= scale;
+
+                    child.Transform.Position += Transform.Position;
+                    child.Transform.Rotation += Transform.Rotation;
+                    child.Transform.Scale += Transform.Scale;
+
+                }
+    }
+
     /// <summary>
     /// List of references to <see cref="Scene"/> this GameObject is a part of.
     /// </summary>
@@ -57,16 +89,26 @@ public class GameObject : BaseObject
 
         T component = (T)Activator.CreateInstance(typeof(T), constructorArgs)!;
         _components.Add(component);
+        Console.WriteLine($"Component of type ({typeof(T).ToString()}) Added to {this.Name ?? this.GetType().Name}");
         return component;
     }
     public void RemoveComponent<T>() where T : Component
     {
 
     }
+    public WeakReference<GameObject> AddChild(GameObject child)
+    {
+        Console.WriteLine($"Child ({child.Name}) Added to {this.Name}");
+        WeakReference<GameObject> childRef = new WeakReference<GameObject>(child);
+        _children.Add(childRef);
+        child.Parent = new WeakReference<GameObject>(this);
+        return childRef;
+    }
     public GameObject()
     {
         //TODO: add required scene
 
+        _globalTransform = new Transform();
         Transform = new Transform();
         
         // Initialize the empty lists

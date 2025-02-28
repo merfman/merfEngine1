@@ -43,9 +43,14 @@ internal class Window : GameWindow
         base.OnLoad();
 
         CameraObject = new GameObject();
+        CameraObject.Name = "CameraObject";
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
         _testGameObject = new GameObject();
+        _testGameObject.Name = "TestSuzanne";
+
+        CameraObject.AddChild(_testGameObject);
+
         _testGameObject.Transform.Yaw = 90;
         _testGameObject.Transform.Pitch = 25;
         _testRenderComponent = new RenderComponent(_testGameObject);
@@ -88,20 +93,22 @@ internal class Window : GameWindow
         float cameraSpeed = 1.5f;
         float sensitivity = 0.2f;
 
+        _testGameObject.Transform.Position += _testGameObject.Transform.Front * 0.1f * (float)args.Time;
+
         if (input.IsKeyDown(Keys.LeftShift)) cameraSpeed = 3.5f;
-        if (input.IsKeyDown(Keys.W)) ActiveCamera.Transform.Position += ActiveCamera.Transform.Front * cameraSpeed * (float)args.Time; // Forward
-        if (input.IsKeyDown(Keys.S)) ActiveCamera.Transform.Position -= ActiveCamera.Transform.Front * cameraSpeed * (float)args.Time; // Backwards
-        if (input.IsKeyDown(Keys.A)) ActiveCamera.Transform.Position -= ActiveCamera.Transform.Right * cameraSpeed * (float)args.Time; // Left
-        if (input.IsKeyDown(Keys.D)) ActiveCamera.Transform.Position += ActiveCamera.Transform.Right * cameraSpeed * (float)args.Time; // Right
-        if (input.IsKeyDown(Keys.Space)) ActiveCamera.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
-        if (input.IsKeyDown(Keys.LeftControl)) ActiveCamera.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
+        if (input.IsKeyDown(Keys.W)) CameraObject.Transform.Position += CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Forward
+        if (input.IsKeyDown(Keys.S)) CameraObject.Transform.Position -= CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Backwards
+        if (input.IsKeyDown(Keys.A)) CameraObject.Transform.Position -= CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Left
+        if (input.IsKeyDown(Keys.D)) CameraObject.Transform.Position += CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Right
+        if (input.IsKeyDown(Keys.Space)) CameraObject.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
+        if (input.IsKeyDown(Keys.LeftControl)) CameraObject.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
         if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; // Down
 
         _consoleCurrentLine = Console.GetCursorPosition();
-        Console.SetCursorPosition(0, Console.WindowHeight - 1);
-        Console.WriteLine(ActiveCamera.Transform.Position.ToString());
-        Console.SetCursorPosition(0, Console.WindowHeight);
-        Console.WriteLine(ActiveCamera.Transform.Rotation.ToString());
+        Console.SetCursorPosition(0, Console.WindowHeight - 4);
+        Console.WriteLine(CameraObject.Transform.Position.ToString());
+        Console.SetCursorPosition(0, Console.WindowHeight - 3);
+        Console.WriteLine(CameraObject.Transform.Rotation.ToString());
         Console.SetCursorPosition(_consoleCurrentLine.left, _consoleCurrentLine.top);
 
 
@@ -118,8 +125,8 @@ internal class Window : GameWindow
             var deltaY = mouse.Y - _lastPos.Y;
             _lastPos = new Vector2(mouse.X, mouse.Y);
 
-            ActiveCamera.Transform.Yaw += deltaX * sensitivity;
-            ActiveCamera.Transform.Pitch = MathHelper.Clamp(ActiveCamera.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
+            CameraObject.Transform.Yaw += deltaX * sensitivity;
+            CameraObject.Transform.Pitch = MathHelper.Clamp(CameraObject.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
         }
 
     }
