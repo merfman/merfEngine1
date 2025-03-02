@@ -9,13 +9,6 @@ using static System.Formats.Asn1.AsnWriter;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace OpenGLGameEngine.Mathmatics;
-public enum TransformChangeType
-{
-    Position,
-    Rotation,
-    Scale
-
-}
 /// <summary>
 /// 
 /// </summary>
@@ -126,13 +119,33 @@ public class Transform : BaseObject
         }
     }
 
-    public static Transform operator +(Transform parent, Transform child)
+    public static Transform operator +(Transform left, Transform right)
     {
-        Transform transform = new Transform();
-
-        return transform;
+        left.Position += right.Position;
+        left.Rotation += right.Rotation;
+        left.Scale += right.Scale;
+        return left;
     }
 
+    public static Transform operator -(Transform left, Transform right)
+    {
+        left.Position -= right.Position;
+        left.Rotation -= right.Rotation;
+        left.Scale -= right.Scale;
+        return left;
+    }
+    public override bool Equals(object? obj)
+    {
+        if (obj is Transform transform)
+        {
+            if (!transform.Position.Equals(this.Position)) return false;
+            if (!transform.Rotation.Equals(this.Rotation)) return false;
+            if (!transform.Scale.Equals(this.Scale)) return false;
+        }
+        return true;
+    }
+    public static bool operator ==(Transform left, Transform right) => left.Equals(right);
+    public static bool operator !=(Transform left, Transform right) => !(left == right);
 
     //called when any Euler Angles change, this makes sure the Quaternion stays synced
     private void UpdateQuaternion() => _rotation = Quaternion.FromEulerAngles(_pitch, _yaw, _roll);

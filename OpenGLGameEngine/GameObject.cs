@@ -43,13 +43,13 @@ public class GameObject : BaseObject
             foreach (var childRef in _children)
                 if (childRef.TryGetTarget(out GameObject? child))
                 {
-                    child.Transform.Position -= position;
-                    child.Transform.Rotation -= rotation;
-                    child.Transform.Scale -= scale;
+                    //child.Transform.Position -= position;
+                    //child.Transform.Rotation -= rotation;
+                    //child.Transform.Scale -= scale;
 
                     child.Transform.Position += Transform.Position;
                     child.Transform.Rotation += Transform.Rotation;
-                    child.Transform.Scale += Transform.Scale;
+                    //child.Transform.Scale += Transform.Scale;
 
                 }
     }
