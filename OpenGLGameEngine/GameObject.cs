@@ -104,8 +104,11 @@ public class GameObject : BaseObject
         child.Parent = new WeakReference<GameObject>(this);
         return childRef;
     }
-    public GameObject()
+    public GameObject(string? name = null)
     {
+        if (name != null)
+            Name = name;
+
         //TODO: add required scene
 
         _globalTransform = new Transform();

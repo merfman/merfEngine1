@@ -42,12 +42,10 @@ internal class Window : GameWindow
     {
         base.OnLoad();
 
-        CameraObject = new GameObject();
-        CameraObject.Name = "CameraObject";
+        CameraObject = new GameObject(name: "CameraObject");
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
-        _testGameObject = new GameObject();
-        _testGameObject.Name = "TestSuzanne";
+        _testGameObject = new GameObject(name: "TestSuzanne");
 
         CameraObject.AddChild(_testGameObject);
 
@@ -93,7 +91,7 @@ internal class Window : GameWindow
         float cameraSpeed = 1.5f;
         float sensitivity = 0.2f;
 
-        _testGameObject.Transform.Position += _testGameObject.Transform.Front * 0.1f * (float)args.Time;
+        //_testGameObject.Transform.Position += _testGameObject.Transform.Front * 0.1f * (float)args.Time;
 
         if (input.IsKeyDown(Keys.LeftShift)) cameraSpeed = 3.5f;
         if (input.IsKeyDown(Keys.W)) CameraObject.Transform.Position += CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Forward

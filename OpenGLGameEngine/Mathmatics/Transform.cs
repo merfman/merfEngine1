@@ -158,4 +158,9 @@ public class Transform : BaseObject
     }
 
     public Matrix4 GetLookAtMatrix() => Matrix4.LookAt(Position, Position + Front, Up);
+
+    public override string ToString()
+    {
+        return $"Position:({Position.ToString()}), Rotation:({Rotation.ToString()}), Scale:({Scale.ToString()})";
+    }
 }
