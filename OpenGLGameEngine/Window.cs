@@ -65,7 +65,6 @@ internal class Window : GameWindow
         testGameObject1.Components.Add(testRenderComponent1);
 
 
-        
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
         _testMaterial = new Material(_testShader);
         _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);

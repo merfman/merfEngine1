@@ -62,7 +62,6 @@ public class Transform : BaseObject
         get => _rotation;
         set
         {
-            OnTransformChanged?.Invoke(Position, _rotation, Scale);
             _rotation = value;
             UpdateVectors();
             UpdateEulerAngles();
@@ -110,7 +109,6 @@ public class Transform : BaseObject
         get => MathHelper.RadiansToDegrees(_roll);
         set
         {
-            
             _roll = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
