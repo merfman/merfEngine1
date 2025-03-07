@@ -23,12 +23,17 @@ internal class Window : GameWindow
     public CameraComponent ActiveCamera;
     public GameObject CameraObject;
 
-    public Shader _testShader;
     public GameObject _testGameObject;
     public RenderComponent _testRenderComponent;
+
+    public GameObject testGameObject1;
+    public RenderComponent testRenderComponent1;
+
+    public Shader _testShader;
     public Material _testMaterial;
     public Mesh _testMesh;
     public Texture _testTexture;
+
 
     private bool _firstMove = true;
     private Vector2 _lastPos;
@@ -46,13 +51,21 @@ internal class Window : GameWindow
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
         _testGameObject = new GameObject(name: "TestSuzanne");
-
         CameraObject.AddChild(_testGameObject);
-
         _testGameObject.Transform.Yaw = 90;
         _testGameObject.Transform.Pitch = 25;
+        _testGameObject.Transform.Position = new Vector3(1.0f);
         _testRenderComponent = new RenderComponent(_testGameObject);
+        //_testGameObject.AddComponent<RenderComponent>(_testRenderComponent);
         _testGameObject.Components.Add(_testRenderComponent);
+
+
+        testGameObject1 = new GameObject("testGameObject1");
+        testRenderComponent1 = new RenderComponent(testGameObject1);
+        testGameObject1.Components.Add(testRenderComponent1);
+
+
+        
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
         _testMaterial = new Material(_testShader);
         _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);
@@ -60,10 +73,12 @@ internal class Window : GameWindow
         _testMaterial.ColorMap = new WeakReference<Texture>(_testTexture);
         //_testGameObject.Assets.Add(new WeakReference<Asset>(_testMaterial));
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
+        testGameObject1.Assets.Add(new WeakReference<Asset>(_testMesh));
 
         _renderer = new Render();
 
         _renderer.AddToRenderList(ref _testRenderComponent);
+        _renderer.AddToRenderList(ref testRenderComponent1);
         
     }
     protected override void OnUnload()

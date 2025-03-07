@@ -88,7 +88,6 @@ public class Transform : BaseObject
         get => MathHelper.RadiansToDegrees(_pitch);
         set
         {
-            OnTransformChanged?.Invoke(Position, _rotation, Scale); 
             _pitch = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
@@ -100,7 +99,6 @@ public class Transform : BaseObject
         get => MathHelper.RadiansToDegrees(_yaw);
         set
         {
-            OnTransformChanged?.Invoke(Position, _rotation, Scale);
             _yaw = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
@@ -112,7 +110,7 @@ public class Transform : BaseObject
         get => MathHelper.RadiansToDegrees(_roll);
         set
         {
-            OnTransformChanged?.Invoke(Position, _rotation, Scale);
+            
             _roll = MathHelper.DegreesToRadians(value);
             UpdateVectors();
             UpdateQuaternion();
@@ -126,7 +124,6 @@ public class Transform : BaseObject
         left.Scale += right.Scale;
         return left;
     }
-
     public static Transform operator -(Transform left, Transform right)
     {
         left.Position -= right.Position;
@@ -148,9 +145,18 @@ public class Transform : BaseObject
     public static bool operator !=(Transform left, Transform right) => !(left == right);
 
     //called when any Euler Angles change, this makes sure the Quaternion stays synced
-    private void UpdateQuaternion() => _rotation = Quaternion.FromEulerAngles(_pitch, _yaw, _roll);
+    private void UpdateQuaternion()
+    {
+        _rotation = Quaternion.FromEulerAngles(_pitch, _yaw, _roll);
+        OnTransformChanged?.Invoke(Position, _rotation, Scale);
+    }
+
     //called when the Quaternion is changed, this makes sure the Euler Angles stay synced
-    private void UpdateEulerAngles() => (_pitch, _yaw, _roll) = _rotation.ToEulerAngles();
+    private void UpdateEulerAngles()
+    {
+        OnTransformChanged?.Invoke(Position, _rotation, Scale);
+        (_pitch, _yaw, _roll) = _rotation.ToEulerAngles();
+    }
 
     private void UpdateVectors()
     // This function is going to update the direction vectors using some of the math learned in the web tutorials.
