@@ -20,23 +20,7 @@ public class CameraComponent : Component
     /// <summary>
     /// The Camera <see cref="Mathmatics.Transform"/>. (note: this just gets the parent <see cref="GameObject"/>'s <see cref="Mathmatics.Transform"/>, this holds no data so it is always synced)
     /// </summary>
-    public Transform Transform
-    {
-        get
-        {
-            //_transform = new(GameObject.Transform);
-            //_transform.Rotation = GameObject.Transform.Rotation;
-            //_transform.Position = GameObject.Transform.Position;
-            //_transform.Rotation = GameObject.Transform.Rotation;
-            //_transform.Rotation *= Quaternion.FromAxisAngle(Vector3.UnitX, MathHelper.DegreesToRadians(30));
-            //_transform.Rotation *= Quaternion.FromAxisAngle(Vector3.UnitY, MathHelper.DegreesToRadians(90));
-            //_transform.Rotation *= Quaternion.);
-            return GameObject.Transform;//_transform;
-            return _transform;
-        }
-
-        //set => GameObject.Transform = value;
-    }
+    public Transform Transform => GameObject.Transform;
 
     private void OnParentTransformChange(Vector3 position, Quaternion rotation, Vector3 scale)
     {

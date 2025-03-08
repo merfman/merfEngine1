@@ -117,9 +117,9 @@ internal class Window : GameWindow
             if (input.IsKeyDown(Keys.D)) CameraObject.Transform.Position += CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Right
             if (input.IsKeyDown(Keys.Space)) CameraObject.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
             if (input.IsKeyDown(Keys.LeftControl)) CameraObject.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
-            if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; // Down
-            if (input.IsKeyDown(Keys.Left)) CameraObject.Transform.Yaw -= 0.1f; // Down
-            if (input.IsKeyDown(Keys.Right)) CameraObject.Transform.Yaw += 0.1f; // Down
+            if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; 
+            if (input.IsKeyDown(Keys.Left)) CameraObject.Transform.Yaw -= 0.1f; 
+            if (input.IsKeyDown(Keys.Right)) CameraObject.Transform.Yaw += 0.1f;
         }
 
         // Updates printed variables in the console.
@@ -142,17 +142,7 @@ internal class Window : GameWindow
             Console.WriteLine(_testGameObject.Transform.Rotation.ToEulerAngles().ToString() + "                                    ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(CameraObject.Transform.Rotation.ToEulerAngles().ToString() + "                                    ");
-
-            
-
-            //Console.WriteLine(invertYawPitch + "                                    ");
             Console.SetCursorPosition(_consoleCurrentLine.left, _consoleCurrentLine.top);
-
-
-            //Console.ForegroundColor = ConsoleColor.Cyan;
-            //Console.WriteLine($"GameObject Quaternion: {_testGameObject.Transform.Rotation.ToString()}");
-            //Console.ForegroundColor = ConsoleColor.White;
-            //Console.WriteLine($"Camera Quaternion: {CameraObject.Transform.Rotation.ToString()}");
         }
 
         // Covers Mouse input.
@@ -173,22 +163,6 @@ internal class Window : GameWindow
                 CameraObject.Transform.Yaw += deltaX * sensitivity;
                 CameraObject.Transform.Pitch = MathHelper.Clamp(CameraObject.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
                 CameraObject.Transform.Roll = 0;
-
-                //CameraObject.Transform.Rotation = CameraObject.Transform.Rotation - Quaternion.FromAxisAngle(CameraObject.Transform.Right, deltaY * sensitivity);//MathHelper.Clamp(CameraObject.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
-
-                //_testGameObject.Transform.Yaw = - CameraObject.Transform.Yaw;
-                //_testGameObject.Transform.Pitch = MathHelper.Clamp(_testGameObject.Transform.Pitch + deltaY * sensitivity, -89f, 89f);
-
-
-                //testGameObject1.Transform.Rotation = _testGameObject.Transform.Rotation;
-                //_testGameObject.Transform.Rotation = (CameraObject.Transform.Rotation);
-                //_testGameObject.Transform.Rotation = new Quaternion (1, 1, 1, 1) - CameraObject.Transform.Rotation;
-                //_testGameObject.Transform.Rotation += Quaternion.Invert(CameraObject.Transform.Rotation) * _testGameObject.Transform.Rotation;
-                //_testGameObject.Transform.Rotation = Quaternion.Invert(CameraObject.Transform.Rotation) * Quaternion.Identity;
-                //_testGameObject.Transform.Rotation = Quaternion.Invert(CameraObject.Transform.Rotation); //new Quaternion(-1, 0, -1, 0);
-
-                //_testGameObject.Transform.Rotation = (CameraObject.Transform.Rotation);
-                //_testGameObject.Transform.Roll = MathHelper.DegreesToRadians(180);
 
                 _testGameObject.Transform.Pitch = MathHelper.Clamp(_testGameObject.Transform.Pitch + deltaY * sensitivity, -89f, 89f);
                 _testGameObject.Transform.Yaw -= deltaX * sensitivity;
