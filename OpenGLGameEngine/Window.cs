@@ -55,23 +55,25 @@ internal class Window : GameWindow
         //CameraObject.AddChild(_testGameObject);
         _testGameObject.Transform.Yaw = 90;
         _testGameObject.Transform.Pitch = 25;
-        //_testGameObject.Transform.Position = new Vector3(1.0f);
+        _testGameObject.Transform.Position = new Vector3(1.0f);
         _testRenderComponent = new RenderComponent(_testGameObject);
         //_testGameObject.AddComponent<RenderComponent>(_testRenderComponent);
         _testGameObject.Components.Add(_testRenderComponent);
-
 
         testGameObject1 = new GameObject("testGameObject1");
         testRenderComponent1 = new RenderComponent(testGameObject1);
         testGameObject1.Components.Add(testRenderComponent1);
 
+        //_testGameObject.AddChild(ref testGameObject1);
+
+        testGameObject1.Transform.Position = new Vector3(5);
+        //_testGameObject.Children.Add(new WeakReference<GameObject>(testGameObject1));
 
         _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
         _testMaterial = new Material(_testShader);
         _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);
         _testTexture = Texture.LoadFromFile(PathH.GetRelative(@"Resources\Textures\container2.png"));
         _testMaterial.ColorMap = new WeakReference<Texture>(_testTexture);
-        //_testGameObject.Assets.Add(new WeakReference<Asset>(_testMaterial));
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
         testGameObject1.Assets.Add(new WeakReference<Asset>(_testMesh));
 
@@ -120,6 +122,7 @@ internal class Window : GameWindow
             if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; 
             if (input.IsKeyDown(Keys.Left)) CameraObject.Transform.Yaw -= 0.1f; 
             if (input.IsKeyDown(Keys.Right)) CameraObject.Transform.Yaw += 0.1f;
+            if (input.IsKeyDown(Keys.P)) testGameObject1.Transform.Position += new Vector3(1, 0, 0);
         }
 
         // Updates printed variables in the console.

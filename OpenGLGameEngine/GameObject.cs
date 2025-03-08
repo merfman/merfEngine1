@@ -20,7 +20,7 @@ public class GameObject : BaseObject
 
     private List<WeakReference<GameObject>> _children; //TODO: make child GameObjects also transform (and other stuff) when parent ones do (make the child ones also change when the parents do etc.)
 
-    private Transform _localTransform;
+    //private Transform _localTransform;
     private Transform _globalTransform;
 
     /// <summary>
@@ -29,7 +29,9 @@ public class GameObject : BaseObject
     public Transform Transform
     {
         get => _globalTransform;
-        set => _localTransform = value;
+        set => 
+            //_localTransform = value;
+            _globalTransform = value;
     }
 
     /// <summary>
@@ -75,7 +77,7 @@ public class GameObject : BaseObject
     {
 
     }
-    public WeakReference<GameObject> AddChild(GameObject child)
+    public WeakReference<GameObject> AddChild(ref GameObject child)
     {
         Console.WriteLine($"Child ({child.Name}) Added to {this.Name}");
         WeakReference<GameObject> childRef = new WeakReference<GameObject>(child);
@@ -90,13 +92,14 @@ public class GameObject : BaseObject
         //if there is a parent(which there should always be if this method is called), then it offsets the transform to the parents transform
         if (Parent.TryGetTarget(out GameObject? parent))
         {
-            _globalTransform.Rotation = parent.Transform.Rotation;
-            _globalTransform.Rotation += _localTransform.Rotation;
-            _globalTransform.Position = parent.Transform.Position;
-            _globalTransform.Position += 
-                                        (_globalTransform.Front * _localTransform.Position.X) + 
-                                        (_globalTransform.Up * _localTransform.Position.Y) + 
-                                        (_globalTransform.Right * _localTransform.Position.Z);
+            //_globalTransform.Rotation = parent.Transform.Rotation;
+            //_globalTransform.Rotation *= _localTransform.Rotation;
+
+            _globalTransform.Position += parent.Transform.Position - _globalTransform.Position;
+            //_globalTransform.Position += 
+                                        //(_globalTransform.Front * Transform.Position.X) + 
+                                        //(_globalTransform.Up * Transform.Position.Y) + 
+                                        //(_globalTransform.Right * Transform.Position.Z);
         }
     }
     public GameObject(string? name = null)
@@ -107,7 +110,7 @@ public class GameObject : BaseObject
         //TODO: add required scene
 
         _globalTransform = new Transform();
-        Transform = new Transform();
+        //Transform = new Transform();
         
         // Initialize the empty lists
         _children = new List<WeakReference<GameObject>>();
