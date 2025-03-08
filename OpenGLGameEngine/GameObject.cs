@@ -32,19 +32,6 @@ public class GameObject : BaseObject
         set => _localTransform = value;
     }
 
-    private void OnParentTransformChanged(Vector3 position, Quaternion rotation, Vector3 scale)
-    {
-        // This should recursively loop through all children and change the transform with the parent
-        if (_children != null)
-            if (Parent.TryGetTarget(out GameObject? parent))
-            {
-                _globalTransform.Position = parent.Transform.Position;
-                _globalTransform.Position += _localTransform.Position;
-                _globalTransform.Rotation = parent.Transform.Rotation;
-                _globalTransform.Rotation += _localTransform.Rotation;
-            }
-    }
-
     /// <summary>
     /// List of references to <see cref="Scene"/> this GameObject is a part of.
     /// </summary>
@@ -68,14 +55,14 @@ public class GameObject : BaseObject
     public List<WeakReference<Asset>> Assets;
     
     /// <summary>
-    /// 
+    /// Adds a Component to the <see cref="GameObject"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="args"></param>
     /// <returns></returns>
-    /// <remarks> This class was partially written by ChatGPT. </remarks>
     public T AddComponent<T>(params object[] args) where T : Component
     {
+        // This class was partially written by ChatGPT.
         // Create the component dynamically, passing `this` as the first argument
         object[] constructorArgs = new object[] { this }.Concat(args).ToArray();
 
@@ -96,6 +83,21 @@ public class GameObject : BaseObject
         child.Parent = new WeakReference<GameObject>(this);
         _globalTransform.OnTransformChanged += child.OnParentTransformChanged;
         return childRef;
+    }
+
+    private void OnParentTransformChanged(Vector3 position, Quaternion rotation, Vector3 scale)
+    {
+        //if there is a parent(which there should always be if this method is called), then it offsets the transform to the parents transform
+        if (Parent.TryGetTarget(out GameObject? parent))
+        {
+            _globalTransform.Rotation = parent.Transform.Rotation;
+            _globalTransform.Rotation += _localTransform.Rotation;
+            _globalTransform.Position = parent.Transform.Position;
+            _globalTransform.Position += 
+                                        (_globalTransform.Front * _localTransform.Position.X) + 
+                                        (_globalTransform.Up * _localTransform.Position.Y) + 
+                                        (_globalTransform.Right * _localTransform.Position.Z);
+        }
     }
     public GameObject(string? name = null)
     {

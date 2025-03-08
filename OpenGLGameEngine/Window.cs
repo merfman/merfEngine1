@@ -48,13 +48,14 @@ internal class Window : GameWindow
         base.OnLoad();
 
         CameraObject = new GameObject(name: "CameraObject");
+        CameraObject.Transform.Scale = new Vector3(-1);
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
         _testGameObject = new GameObject(name: "TestSuzanne");
-        CameraObject.AddChild(_testGameObject);
+        //CameraObject.AddChild(_testGameObject);
         _testGameObject.Transform.Yaw = 90;
         _testGameObject.Transform.Pitch = 25;
-        _testGameObject.Transform.Position = new Vector3(1.0f);
+        //_testGameObject.Transform.Position = new Vector3(1.0f);
         _testRenderComponent = new RenderComponent(_testGameObject);
         //_testGameObject.AddComponent<RenderComponent>(_testRenderComponent);
         _testGameObject.Components.Add(_testRenderComponent);
@@ -78,7 +79,8 @@ internal class Window : GameWindow
 
         _renderer.AddToRenderList(ref _testRenderComponent);
         _renderer.AddToRenderList(ref testRenderComponent1);
-        
+
+        //_testGameObject.Transform.Roll = CameraObject.Transform.Pitch;
     }
     protected override void OnUnload()
     {
@@ -96,50 +98,102 @@ internal class Window : GameWindow
     {
         base.OnUpdateFrame(args);
 
+        // Disables updates when window not focused
         if (!IsFocused) return;
 
-        var input = KeyboardState;
-
-        if (input.IsKeyDown(Keys.Escape)) Close();
-
+        // Movement speed.
         float cameraSpeed = 1.5f;
-        float sensitivity = 0.2f;
+        // Turning speed.
+        float sensitivity = 0.2f; 
 
-        //_testGameObject.Transform.Position += _testGameObject.Transform.Front * 0.1f * (float)args.Time;
-
-        if (input.IsKeyDown(Keys.LeftShift)) cameraSpeed = 3.5f;
-        if (input.IsKeyDown(Keys.W)) CameraObject.Transform.Position += CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Forward
-        if (input.IsKeyDown(Keys.S)) CameraObject.Transform.Position -= CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Backwards
-        if (input.IsKeyDown(Keys.A)) CameraObject.Transform.Position -= CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Left
-        if (input.IsKeyDown(Keys.D)) CameraObject.Transform.Position += CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Right
-        if (input.IsKeyDown(Keys.Space)) CameraObject.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
-        if (input.IsKeyDown(Keys.LeftControl)) CameraObject.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
-        if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; // Down
-
-        _consoleCurrentLine = Console.GetCursorPosition();
-        Console.SetCursorPosition(0, Console.WindowHeight - 4);
-        Console.WriteLine(CameraObject.Transform.Position.ToString());
-        Console.SetCursorPosition(0, Console.WindowHeight - 3);
-        Console.WriteLine(CameraObject.Transform.Rotation.ToString());
-        Console.SetCursorPosition(_consoleCurrentLine.left, _consoleCurrentLine.top);
-
-
-        var mouse = MouseState;
-
-        if (_firstMove)
+        // Covers Key input.
         {
-            _lastPos = new Vector2(mouse.X, mouse.Y);
-            _firstMove = false;
-        }
-        else
-        {
-            var deltaX = mouse.X - _lastPos.X;
-            var deltaY = mouse.Y - _lastPos.Y;
-            _lastPos = new Vector2(mouse.X, mouse.Y);
-
-            CameraObject.Transform.Yaw += deltaX * sensitivity;
-            CameraObject.Transform.Pitch = MathHelper.Clamp(CameraObject.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
+            var input = KeyboardState;
+            if (input.IsKeyDown(Keys.Escape)) Close();
+            if (input.IsKeyDown(Keys.LeftShift)) cameraSpeed = 3.5f;
+            if (input.IsKeyDown(Keys.W)) CameraObject.Transform.Position += CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Forward
+            if (input.IsKeyDown(Keys.S)) CameraObject.Transform.Position -= CameraObject.Transform.Front * cameraSpeed * (float)args.Time; // Backwards
+            if (input.IsKeyDown(Keys.A)) CameraObject.Transform.Position -= CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Left
+            if (input.IsKeyDown(Keys.D)) CameraObject.Transform.Position += CameraObject.Transform.Right * cameraSpeed * (float)args.Time; // Right
+            if (input.IsKeyDown(Keys.Space)) CameraObject.Transform.Position += new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Up
+            if (input.IsKeyDown(Keys.LeftControl)) CameraObject.Transform.Position -= new Vector3(0.0f, 1.0f, 0.0f) * cameraSpeed * (float)args.Time; // Down
+            if (input.IsKeyDown(Keys.T)) CursorState = CursorState.Grabbed; // Down
+            if (input.IsKeyDown(Keys.Left)) CameraObject.Transform.Yaw -= 0.1f; // Down
+            if (input.IsKeyDown(Keys.Right)) CameraObject.Transform.Yaw += 0.1f; // Down
         }
 
+        // Updates printed variables in the console.
+        {
+            _consoleCurrentLine = Console.GetCursorPosition();
+            Console.SetCursorPosition(0, Console.WindowHeight - 25);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(CameraObject.Transform.Pitch.ToString() + "                                    ");
+            Console.WriteLine(CameraObject.Transform.Yaw.ToString() + "                                    ");
+            Console.WriteLine(CameraObject.Transform.Roll.ToString() + "                                    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(_testGameObject.Transform.Position.ToString() + "                                    ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(CameraObject.Transform.Position.ToString() + "                                    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(_testGameObject.Transform.Rotation.ToString() + "                                    ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(CameraObject.Transform.Rotation.ToString() + "                                    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(_testGameObject.Transform.Rotation.ToEulerAngles().ToString() + "                                    ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(CameraObject.Transform.Rotation.ToEulerAngles().ToString() + "                                    ");
+
+            
+
+            //Console.WriteLine(invertYawPitch + "                                    ");
+            Console.SetCursorPosition(_consoleCurrentLine.left, _consoleCurrentLine.top);
+
+
+            //Console.ForegroundColor = ConsoleColor.Cyan;
+            //Console.WriteLine($"GameObject Quaternion: {_testGameObject.Transform.Rotation.ToString()}");
+            //Console.ForegroundColor = ConsoleColor.White;
+            //Console.WriteLine($"Camera Quaternion: {CameraObject.Transform.Rotation.ToString()}");
+        }
+
+        // Covers Mouse input.
+        {
+            var mouse = MouseState;
+
+            if (_firstMove)
+            {
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+                _firstMove = false;
+            }
+            else
+            {
+                var deltaX = mouse.X - _lastPos.X;
+                var deltaY = mouse.Y - _lastPos.Y;
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+
+                CameraObject.Transform.Yaw += deltaX * sensitivity;
+                CameraObject.Transform.Pitch = MathHelper.Clamp(CameraObject.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
+                CameraObject.Transform.Roll = 0;
+
+                //CameraObject.Transform.Rotation = CameraObject.Transform.Rotation - Quaternion.FromAxisAngle(CameraObject.Transform.Right, deltaY * sensitivity);//MathHelper.Clamp(CameraObject.Transform.Pitch - deltaY * sensitivity, -89f, 89f);
+
+                //_testGameObject.Transform.Yaw = - CameraObject.Transform.Yaw;
+                //_testGameObject.Transform.Pitch = MathHelper.Clamp(_testGameObject.Transform.Pitch + deltaY * sensitivity, -89f, 89f);
+
+
+                //testGameObject1.Transform.Rotation = _testGameObject.Transform.Rotation;
+                //_testGameObject.Transform.Rotation = (CameraObject.Transform.Rotation);
+                //_testGameObject.Transform.Rotation = new Quaternion (1, 1, 1, 1) - CameraObject.Transform.Rotation;
+                //_testGameObject.Transform.Rotation += Quaternion.Invert(CameraObject.Transform.Rotation) * _testGameObject.Transform.Rotation;
+                //_testGameObject.Transform.Rotation = Quaternion.Invert(CameraObject.Transform.Rotation) * Quaternion.Identity;
+                //_testGameObject.Transform.Rotation = Quaternion.Invert(CameraObject.Transform.Rotation); //new Quaternion(-1, 0, -1, 0);
+
+                //_testGameObject.Transform.Rotation = (CameraObject.Transform.Rotation);
+                //_testGameObject.Transform.Roll = MathHelper.DegreesToRadians(180);
+
+                _testGameObject.Transform.Pitch = MathHelper.Clamp(_testGameObject.Transform.Pitch + deltaY * sensitivity, -89f, 89f);
+                _testGameObject.Transform.Yaw -= deltaX * sensitivity;
+                _testGameObject.Transform.Position = CameraObject.Transform.Position;
+            }
+        }
     }
 }

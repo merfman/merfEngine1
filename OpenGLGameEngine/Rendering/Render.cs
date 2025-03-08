@@ -61,9 +61,9 @@ internal class Render
 
                                     shader.Use();
 
-                                    Matrix4 model = Matrix4.CreateTranslation(new Vector3(0.0f));
+                                    Matrix4 model = //Matrix4.CreateTranslation(new Vector3(0.0f));
+                                             Matrix4.CreateScale(component.GameObject.Transform.Scale);
                                     model *= Matrix4.CreateFromQuaternion(component.GameObject.Transform.Rotation);
-                                    model *= Matrix4.CreateScale(component.GameObject.Transform.Scale);
                                     model *= Matrix4.CreateTranslation(component.GameObject.Transform.Position);
                                     shader.SetMatrix4("model", model);
 

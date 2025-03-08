@@ -47,6 +47,8 @@ public class Transform : BaseObject
         (Position, Rotation, Scale) = (position ?? Vector3.Zero, rotation ?? new Quaternion(0, 0, 0, 1), scale ?? new Vector3(1, 1, 1));
     public Transform(Vector3? position = null, Vector3? rotation = null, Vector3? scale = null) =>
         (Position, Rotation, Scale) = (position ?? Vector3.Zero, Quaternion.FromEulerAngles(rotation ?? Vector3.Zero) , scale ?? Vector3.One);
+    public Transform(Transform transform) =>
+        (Position, Rotation, Scale) = (transform.Position, transform.Rotation, transform.Scale);
 
     public Vector3 Position
     {
@@ -84,10 +86,10 @@ public class Transform : BaseObject
     public float Pitch
     // We convert from degrees to radians as soon as the property is set to improve performance.
     {
-        get => MathHelper.RadiansToDegrees(_pitch);
+        get => MathHelper.RadiansToDegrees(_pitch);// % 180;
         set
         {
-            _pitch = MathHelper.DegreesToRadians(value);
+            _pitch = MathHelper.DegreesToRadians(value);// % 180;
             UpdateVectors();
             UpdateQuaternion();
         }
@@ -95,10 +97,10 @@ public class Transform : BaseObject
     public float Yaw
     // We convert from degrees to radians as soon as the property is set to improve performance.
     {
-        get => MathHelper.RadiansToDegrees(_yaw);
+        get => MathHelper.RadiansToDegrees(_yaw); // + 180 % 360 - 180;
         set
         {
-            _yaw = MathHelper.DegreesToRadians(value);
+            _yaw = MathHelper.DegreesToRadians(value);// % 360;
             UpdateVectors();
             UpdateQuaternion();
         }
@@ -106,10 +108,10 @@ public class Transform : BaseObject
 
     public float Roll
     {
-        get => MathHelper.RadiansToDegrees(_roll);
+        get => MathHelper.RadiansToDegrees(_roll);// % 360;
         set
         {
-            _roll = MathHelper.DegreesToRadians(value);
+            _roll = MathHelper.DegreesToRadians(value);// % 360;
             UpdateVectors();
             UpdateQuaternion();
         }
@@ -145,7 +147,11 @@ public class Transform : BaseObject
     //called when any Euler Angles change, this makes sure the Quaternion stays synced
     private void UpdateQuaternion()
     {
-        _rotation = Quaternion.FromEulerAngles(_pitch, _yaw, _roll);
+        //_rotation = Quaternion.FromEulerAngles(_pitch, _yaw, _roll);
+        _rotation = Quaternion.FromAxisAngle(Vector3.UnitY, _yaw) * 
+                    Quaternion.FromAxisAngle(Vector3.UnitX, _pitch) * 
+                    Quaternion.FromAxisAngle(Vector3.UnitZ, _roll);
+
         OnTransformChanged?.Invoke(Position, _rotation, Scale);
     }
 
@@ -154,6 +160,9 @@ public class Transform : BaseObject
     {
         OnTransformChanged?.Invoke(Position, _rotation, Scale);
         (_pitch, _yaw, _roll) = _rotation.ToEulerAngles();
+        //_pitch %= MathHelper.Pi * 2;
+        //_yaw %= MathHelper.Pi * 2;
+        //Roll %= MathHelper.Pi * 2;
     }
 
     private void UpdateVectors()
