@@ -29,33 +29,36 @@ public class GameObject : BaseObject
     public Transform Transform
     {
         get => _globalTransform;
-        set => 
+        set =>
             //_localTransform = value;
             _globalTransform = value;
     }
 
     /// <summary>
-    /// List of references to <see cref="Scene"/> this GameObject is a part of.
-    /// </summary>
-    public List<WeakReference<Scene>> Scenes;
-    /// <summary>
     /// Reference to the <see cref="GameObject"/> Parent.
     /// </summary>
     public WeakReference<GameObject>? Parent;
+
     /// <summary>
-    /// List of references to <see cref="GameObject"/> Children. To add a Child use <see cref="AddChild(GameObject)"/>
+    /// List of references to child <see cref="GameObject"/>s. To add a Child use <see cref="AddChild(GameObject)"/>
     /// </summary>
-    public List<WeakReference<GameObject>> Children => _children; //TODO: make it so children cant be added with children.Add(child);
+    private List<WeakReference<GameObject>> Children => _children; //TODO: make it so children cant be added with children.Add(child);
+
     /// <summary>
     /// List of <see cref="Component"/>. To add a <see cref="Component"/> use <see cref="AddComponent{T}(object[])"/>
     /// </summary>
     public List<Component> Components => _components; //TODO: make it so components cant be added with components.Add(component);
 
     /// <summary>
+    /// List of references to <see cref="Scene"/> this GameObject is a part of.
+    /// </summary>
+    private List<WeakReference<Scene>> Scenes;
+
+    /// <summary>
     /// List of <seealso cref="Asset"/> stored as <seealso cref="WeakReference"/>.
     /// </summary>
     public List<WeakReference<Asset>> Assets;
-    
+
     /// <summary>
     /// Adds a Component to the <see cref="GameObject"/>.
     /// </summary>
@@ -77,6 +80,11 @@ public class GameObject : BaseObject
     {
 
     }
+    /// <summary>
+    /// Adds a <see cref="GameObject"/> as a child.
+    /// </summary>
+    /// <param name="child"></param>
+    /// <returns></returns>
     public WeakReference<GameObject> AddChild(ref GameObject child)
     {
         Console.WriteLine($"Child ({child.Name}) Added to {this.Name}");
@@ -86,6 +94,17 @@ public class GameObject : BaseObject
         _globalTransform.OnTransformChanged += child.OnParentTransformChanged;
         return childRef;
     }
+    /// <summary>
+    /// This lets you find a specific child from a specified index.
+    /// </summary>
+    /// <param name="index">The Index of the child</param>
+    /// <returns>A Reference to the Child as the specified id.</returns>
+    public WeakReference<GameObject> FindChildById(int index) => _children[index];
+    /// <summary>
+    /// This gets the <see cref="Children"/> as an <see cref="Array"/>.
+    /// </summary>
+    /// <returns>An <see cref="Array"/> of <see cref="Children"/></returns>
+    public WeakReference<GameObject>[] GetChildrenAsArray() => _children.ToArray();
 
     private void OnParentTransformChanged(Vector3 position, Quaternion rotation, Vector3 scale)
     {
@@ -102,13 +121,8 @@ public class GameObject : BaseObject
                                         //(_globalTransform.Right * Transform.Position.Z);
         }
     }
-    public GameObject(string? name = null)
+    public GameObject(string? name = null) : base(name) 
     {
-        if (name != null)
-            Name = name;
-
-        //TODO: add required scene
-
         _globalTransform = new Transform();
         //Transform = new Transform();
         
