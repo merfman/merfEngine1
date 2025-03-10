@@ -14,8 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Materials\" />
     <Folder Include="Resources\Textures\" />
     <Folder Include="Resources\Shaders\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

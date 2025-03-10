@@ -37,12 +37,16 @@ public class Scene : BaseObject
     {
         _gameObjects.Add(gameObject);
     }
+
     /// <summary>
     /// Saves the Scene to a json file.
     /// </summary>
     /// <param name="path"></param>
-    public void SaveSceneToFile(string path)
-    {
-        throw new NotImplementedException();
-    }
+    public void SaveSceneToFile(string path) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Initializes a scene and loads it from a json file.
+    /// </summary>
+    /// <param name="path"></param>
+    static public void LoadSceneFromFile(string path) => throw new NotImplementedException();
 }

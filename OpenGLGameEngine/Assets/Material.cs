@@ -1,9 +1,11 @@
-﻿using OpenGLGameEngine.Rendering;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
+using OpenTK.Windowing.Common.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace OpenGLGameEngine.Assets;
@@ -42,6 +44,21 @@ public class Material : Asset
         shader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
 
         Shader = new WeakReference<Shader>(shader);
+    }
+    private void SaveToFile(string path)
+    {
+        if (Shader.TryGetTarget(out Shader? shader) && shader != null)
+        {
+            Material mat = new Material(shader)
+            {
+                BaseColor = this.BaseColor,
+                ColorMap = this.ColorMap
+            };
+            string json = JsonSerializer.Serialize(mat, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, json);
+            Console.WriteLine($"File {path} successfully created");
+        }
+        else Console.WriteLine("File creation Error");
     }
     public override void LoadFromFile(string path)
     {

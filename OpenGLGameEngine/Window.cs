@@ -5,6 +5,7 @@ using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using OpenGLGameEngine.Assets;
+using OpenGLGameEngine.Files;
 using OpenGLGameEngine.Rendering;
 using OpenTK;
 using OpenTK.Mathematics;
@@ -87,6 +88,7 @@ internal class Window : GameWindow
     protected override void OnUnload()
     {
         base.OnUnload();
+        JsonSaveLoad.Save(_testMaterial, PathH.GetRelative(@"Resources\Materials\testMaterial.json"));
     }
     protected override void OnRenderFrame(FrameEventArgs args)
     {

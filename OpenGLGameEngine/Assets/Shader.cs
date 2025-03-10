@@ -1,5 +1,4 @@
-﻿using OpenGLGameEngine.Assets;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,7 @@ using OpenTK.Mathematics;
 using System.Reflection.Metadata;
 using System.IO;
 
-namespace OpenGLGameEngine.Rendering;
+namespace OpenGLGameEngine.Assets;
 /// <summary>
 /// Handles the management of shaders.
 /// </summary>
