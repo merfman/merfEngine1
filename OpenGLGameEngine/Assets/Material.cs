@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace OpenGLGameEngine.Assets;
+
 public class Material : Asset
 {
     public WeakReference<Shader> Shader;
@@ -18,7 +19,7 @@ public class Material : Asset
     public WeakReference<Texture>? AOMap;
     public WeakReference<Texture>? RoughnessMap;
     public Color4 BaseColor;
-    public Vector3 Normal;
+    //public Vector3 Normal;
     public float Roughness;
     public float Shininess;
     public float Alpha;

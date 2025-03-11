@@ -17,6 +17,10 @@ using static System.Net.Mime.MediaTypeNames;
 namespace OpenGLGameEngine;
 internal class Window : GameWindow
 {
+    private GameResourceManager resourceManager;
+
+    private Scene _testScene;
+
     private (int left, int top) _consoleCurrentLine;
 
     private Render _renderer;
@@ -48,9 +52,24 @@ internal class Window : GameWindow
     {
         base.OnLoad();
 
+        resourceManager = new GameResourceManager();
+
+
         CameraObject = new GameObject(name: "CameraObject");
         CameraObject.Transform.Scale = new Vector3(-1);
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
+
+        _testScene = new Scene()
+        {
+            ActiveCamera = ActiveCamera,
+            GameObjects = new Dictionary<string, GameObject>() //new List<GameObject>
+            {
+                ["TestSuzanne"] = new GameObject(name: "TestSuzanne")
+                {
+                    
+                }
+            }
+        };
 
         _testGameObject = new GameObject(name: "TestSuzanne");
         //CameraObject.AddChild(_testGameObject);
@@ -88,7 +107,7 @@ internal class Window : GameWindow
     protected override void OnUnload()
     {
         base.OnUnload();
-        JsonSaveLoad.Save(_testMaterial, PathH.GetRelative(@"Resources\Materials\testMaterial.json"));
+        resourceManager.SaveToFile(_testMaterial, PathH.GetRelative(@"Resources\Materials\testMaterial.json"));
     }
     protected override void OnRenderFrame(FrameEventArgs args)
     {
@@ -130,7 +149,7 @@ internal class Window : GameWindow
         // Updates printed variables in the console.
         {
             _consoleCurrentLine = Console.GetCursorPosition();
-            Console.SetCursorPosition(0, Console.WindowHeight - 25);
+            Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(CameraObject.Transform.Pitch.ToString() + "                                    ");
             Console.WriteLine(CameraObject.Transform.Yaw.ToString() + "                                    ");

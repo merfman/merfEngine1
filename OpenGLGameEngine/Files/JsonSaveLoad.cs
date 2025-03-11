@@ -19,7 +19,7 @@ public class JsonSaveLoad
         IncludeFields = true, // Ensures all fields are included
         Converters =
         {
-            new WeakReferenceConverter<Shader>(),  // Auto-handle Shader weak refs
+            new WeakReferenceConverter<Shader>(), // Auto-handle Shader weak refs
             new WeakReferenceConverter<Texture>() // Auto-handle Texture weak refs
         }
     };

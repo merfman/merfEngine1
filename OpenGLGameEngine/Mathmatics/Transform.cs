@@ -13,7 +13,7 @@ namespace OpenGLGameEngine.Mathmatics;
 /// 
 /// </summary>
 /// <remarks> Copy/Pasted from last project, intend on replacing with new one</remarks>
-public class Transform : BaseObject
+public class Transform : BaseObject //TODO: try changing to struct
 {
     public event Action<Vector3, Quaternion, Vector3>? OnTransformChanged; // Event triggered when Transform changed
 

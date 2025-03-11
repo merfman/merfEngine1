@@ -1,4 +1,19 @@
 {
+  "Shader": null,
+  "ColorMap": null,
+  "NormalMap": null,
+  "AOMap": null,
+  "RoughnessMap": null,
+  "BaseColor": {
+    "R": 127,
+    "G": 127,
+    "B": 127,
+    "A": 255
+  },
+  "Roughness": 0,
+  "Shininess": 0,
+  "Alpha": 0,
   "Path": null,
-  "IsLoaded": false
+  "IsLoaded": false,
+  "Name": null
 }

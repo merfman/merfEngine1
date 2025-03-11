@@ -1,6 +1,7 @@
 ﻿using OpenGLGameEngine.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ public class Scene : BaseObject
     /// <summary>
     /// List of <see cref="GameObject"/>s in the scene;
     /// </summary>
-    private List<GameObject> _gameObjects;
-    //public List<GameObject> GameObjects;
+    public Dictionary<string ,GameObject> GameObjects;
+    //public List<GameObject> GameObjects => _gameObjects.ToImmutableList;
 
     /// <summary>
     /// <see cref="GameObject"/> that holds <see cref="Scene"/>
@@ -30,12 +31,13 @@ public class Scene : BaseObject
     public Scene(string? name = null) : base(name)
     {
         SceneObject = new GameObject(name);
-        _gameObjects = new List<GameObject>();
+        GameObjects = new Dictionary<string, GameObject>(); //new List<GameObject>();
     }
 
     public void AddGameObject(ref GameObject gameObject)
     {
-        _gameObjects.Add(gameObject);
+        GameObjects.Add(gameObject.Name, gameObject);
+        //GameObjects.Add(gameObject);
     }
 
     /// <summary>
