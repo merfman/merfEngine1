@@ -1,6 +1,6 @@
 {
-  "Shader": null,
-  "ColorMap": null,
+  "Shader": "Resources\\Shaders\\testShader.json",
+  "ColorMap": "Resources\\Textures\\container2.png",
   "NormalMap": null,
   "AOMap": null,
   "RoughnessMap": null,

@@ -49,10 +49,11 @@ public class GameResourceManager
                 new WeakReferenceConverter<Texture>() // Auto-handle Texture weak refs
             }
         };
+
         string jsonSerial = JsonSerializer.Serialize(obj, options);
         Console.WriteLine("jsonSerial:");
         Console.WriteLine(jsonSerial);
-        File.WriteAllText(path, jsonSerial);
+        File.WriteAllText(PathH.GetRelative(path), jsonSerial);
     }
 
     //public T LoadAsset<T>(string path) where T : Asset

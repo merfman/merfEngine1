@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK;
 using OpenTK.Graphics.ES30;
+using OpenGLGameEngine.Files;
 
 namespace OpenGLGameEngine.Assets;
 
@@ -66,12 +67,14 @@ internal class Mesh : Asset
     public Mesh(string path, Material? material, string? name = null)
     {
         if (name == null) Name = System.IO.Path.GetFileName(path);
+        this.Path = path;
         Material = new WeakReference<Material>(material);
         LoadFromFile(path);
     }
 
     public override void LoadFromFile(string path)
     {
+        path = PathH.GetRelative(path);
         base.LoadFromFile(path);
         (float[] vertexData, int[] faceIndices, float[] normals, float[] tangentData, float[] textureCoords) = OBJParser.Parse(path);
 

@@ -89,10 +89,10 @@ internal class Window : GameWindow
         testGameObject1.Transform.Position = new Vector3(5);
         //_testGameObject.Children.Add(new WeakReference<GameObject>(testGameObject1));
 
-        _testShader = new Shader( PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"));
+        _testShader = new Shader(PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"), shaderGroupPath: @"Resources\Shaders\testShader.json") {};
         _testMaterial = new Material(_testShader);
-        _testMesh = new Mesh(PathH.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);
-        _testTexture = Texture.LoadFromFile(PathH.GetRelative(@"Resources\Textures\container2.png"));
+        _testMesh = new Mesh((@"Resources\Meshes\Suzanne.obj"), _testMaterial);
+        _testTexture = Texture.LoadFromFile((@"Resources\Textures\container2.png"));
         _testMaterial.ColorMap = new WeakReference<Texture>(_testTexture);
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
         testGameObject1.Assets.Add(new WeakReference<Asset>(_testMesh));
@@ -107,7 +107,8 @@ internal class Window : GameWindow
     protected override void OnUnload()
     {
         base.OnUnload();
-        resourceManager.SaveToFile(_testMaterial, PathH.GetRelative(@"Resources\Materials\testMaterial.json"));
+        resourceManager.SaveToFile(_testShader, (@"Resources\Shaders\testShader.json"));
+        resourceManager.SaveToFile(_testMaterial, (@"Resources\Materials\testMaterial.json"));
     }
     protected override void OnRenderFrame(FrameEventArgs args)
     {

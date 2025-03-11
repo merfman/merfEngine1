@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Reflection.Metadata;
 using System.IO;
+using OpenGLGameEngine.Files;
 
 namespace OpenGLGameEngine.Assets;
 /// <summary>
@@ -17,11 +18,19 @@ public class Shader : Asset
 {
     public readonly int Handle;
 
-    public Shader(string vertPath, string fragPath, string? geomPath = null)
+    public Shader(string vertPath, string fragPath, string? geomPath = null, string? shaderGroupPath = null)
     {
+        vertPath = PathH.GetRelative(vertPath);
+        fragPath = PathH.GetRelative(fragPath);
+        if (shaderGroupPath != null) Path = shaderGroupPath;
         Console.WriteLine($"Loading vert Shader {vertPath}");
         Console.WriteLine($"Loading frag Shader {fragPath}");
-        if (geomPath != null) Console.WriteLine($"Loading geom Shader {geomPath}");
+        if (geomPath != null)
+        {
+            geomPath = PathH.GetRelative(geomPath);
+            Console.WriteLine($"Loading geom Shader {geomPath}");
+        }
+
         int vertexShader = CompileShader(vertPath, ShaderType.VertexShader);
         int fragmentShader = CompileShader(fragPath, ShaderType.FragmentShader);
         int geometryShader = geomPath != null ? CompileShader(geomPath, ShaderType.GeometryShader) : 0;

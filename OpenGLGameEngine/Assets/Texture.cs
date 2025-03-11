@@ -5,6 +5,7 @@ using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 using StbImageSharp;
 using System.IO;
 using System.Reflection.Metadata;
+using OpenGLGameEngine.Files;
 
 namespace OpenGLGameEngine.Assets;
 /// <summary>
@@ -34,7 +35,7 @@ public class Texture : Asset
         StbImage.stbi_set_flip_vertically_on_load(1);
 
         // Here we open a stream to the file and pass it to StbImageSharp to load.
-        using (Stream stream = File.OpenRead(path))
+        using (Stream stream = File.OpenRead(PathH.GetRelative(path)))
         {
             ImageResult image = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
 
@@ -76,7 +77,7 @@ public class Texture : Asset
         // Here is an example of mips in action https://en.wikipedia.org/wiki/File:Mipmap_Aliasing_Comparison.png
         GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-        return new Texture(handle);
+        return new Texture(handle) { Path = path };
     }
 
     public Texture(int glHandle)
