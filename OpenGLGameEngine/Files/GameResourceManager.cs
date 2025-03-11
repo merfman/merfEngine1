@@ -56,9 +56,10 @@ public class GameResourceManager
         File.WriteAllText(PathH.GetRelative(path), jsonSerial);
     }
 
-    //public T LoadAsset<T>(string path) where T : Asset
-    //{
-        
-    //}
+    public static T? LoadFromFile<T>(string path)
+    {
+        path = (path);
+        return JsonSerializer.Deserialize<T>(path);
+    }
 
 }

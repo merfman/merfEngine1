@@ -17,7 +17,7 @@ internal class WeakReferenceConverter<T> : JsonConverter<WeakReference<T>> where
         string? reference = reader.GetString();
         if (string.IsNullOrEmpty(reference)) return new WeakReference<T>(null);
 
-        T? asset = JsonSaveLoad.Load<T>(reference);
+        T? asset = GameResourceManager.LoadFromFile<T>(reference);
         return new WeakReference<T>(asset);
     }
 

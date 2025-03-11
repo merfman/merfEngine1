@@ -91,6 +91,7 @@ internal class Window : GameWindow
 
         _testShader = new Shader(PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"), shaderGroupPath: @"Resources\Shaders\testShader.json") {};
         _testMaterial = new Material(_testShader);
+        //_testMaterial = GameResourceManager.LoadFromFile<Material>(@"Resources\Materials\testMaterial.json");
         _testMesh = new Mesh((@"Resources\Meshes\Suzanne.obj"), _testMaterial);
         _testTexture = Texture.LoadFromFile((@"Resources\Textures\container2.png"));
         _testMaterial.ColorMap = new WeakReference<Texture>(_testTexture);
