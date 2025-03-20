@@ -35,6 +35,13 @@ internal class Window : GameWindow
     public Texture _testTexture;
 
 
+    public CollisionComponent _2dCollisionComponent1;
+    public CollisionComponent _2dCollisionComponent2;
+
+    public GameObject _2dSuzanne1;
+    public GameObject _2dSuzanne2;
+
+
     private bool _firstMove = true;
     private Vector2 _lastPos;
 
@@ -81,6 +88,9 @@ internal class Window : GameWindow
 
         _renderer.AddToRenderList(ref _testRenderComponent);
         _renderer.AddToRenderList(ref testRenderComponent1);
+
+
+
 
         //_testGameObject.Transform.Roll = CameraObject.Transform.Pitch;
     }
