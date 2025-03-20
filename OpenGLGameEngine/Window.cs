@@ -89,7 +89,29 @@ internal class Window : GameWindow
         _renderer.AddToRenderList(ref _testRenderComponent);
         _renderer.AddToRenderList(ref testRenderComponent1);
 
-
+        _2dSuzanne1 = new("2dSuzanne1");
+        _2dCollisionComponent1 = new CollisionComponent(_2dSuzanne1)
+        {
+            CollisionPoints = 
+            [
+                [0, 1, 1, 0, 0, 0],
+                [0, 1, 1, 1, 1, 0]
+            ]
+        };
+        /*
+        *   *
+           
+        *   *
+        */
+        _2dSuzanne2 = new("2dSuzanne2");
+        _2dCollisionComponent2 = new CollisionComponent(_2dSuzanne2)
+        {
+            CollisionPoints =
+            [
+                [0, 1, 1, 0, 0, 0],
+                [0, 1, 1, 1, 1, 0]
+            ]
+        };
 
 
         //_testGameObject.Transform.Roll = CameraObject.Transform.Pitch;

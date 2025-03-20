@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OpenGLGameEngine;
 internal class CollisionComponent : Component
 {
-    private int[][] collisionPoints {  get; set; }
+    public int[][] CollisionPoints {  get; set; }
     public CollisionComponent(GameObject parent) : base(parent)
     {
         
