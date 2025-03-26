@@ -75,6 +75,12 @@ internal class Render
         
     }
 
+    public void DebugRenderFrame(CameraComponent camera) //TODO: implement
+    {
+        throw new NotImplementedException();
+        //GL.DrawArrays(PrimitiveType.LineLoop, 0, );
+    }
+
 
 
 
