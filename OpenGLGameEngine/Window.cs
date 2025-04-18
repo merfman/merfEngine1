@@ -89,7 +89,7 @@ internal class Window : GameWindow
         testGameObject1.Transform.Position = new Vector3(5);
         //_testGameObject.Children.Add(new WeakReference<GameObject>(testGameObject1));
 
-        _testShader = new Shader(PathH.GetRelative(@"Resources\Shaders\test.vert"), PathH.GetRelative(@"Resources\Shaders\test.frag"), shaderGroupPath: @"Resources\Shaders\testShader.json") {};
+        _testShader = new Shader(PathUtil.GetRelative(@"Resources\Shaders\test.vert"), PathUtil.GetRelative(@"Resources\Shaders\test.frag"), shaderGroupPath: @"Resources\Shaders\testShader.json") {};
         _testMaterial = new Material(_testShader);
         //_testMaterial = GameResourceManager.LoadFromFile<Material>(@"Resources\Materials\testMaterial.json");
         _testMesh = new Mesh((@"Resources\Meshes\Suzanne.obj"), _testMaterial);

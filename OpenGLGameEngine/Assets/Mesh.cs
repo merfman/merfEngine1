@@ -74,7 +74,7 @@ internal class Mesh : Asset
 
     public override void LoadFromFile(string path)
     {
-        path = PathH.GetRelative(path);
+        path = PathUtil.GetRelative(path);
         base.LoadFromFile(path);
         (float[] vertexData, int[] faceIndices, float[] normals, float[] tangentData, float[] textureCoords) = OBJParser.Parse(path);
 

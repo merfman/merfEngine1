@@ -35,7 +35,7 @@ public class Texture : Asset
         StbImage.stbi_set_flip_vertically_on_load(1);
 
         // Here we open a stream to the file and pass it to StbImageSharp to load.
-        using (Stream stream = File.OpenRead(PathH.GetRelative(path)))
+        using (Stream stream = File.OpenRead(PathUtil.GetRelative(path)))
         {
             ImageResult image = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
 

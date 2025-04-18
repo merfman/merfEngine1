@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OpenGLGameEngine.Files;
-public static class PathH
+public static class PathUtil
 {
     public static string GetRelative(string relativePath)
     {

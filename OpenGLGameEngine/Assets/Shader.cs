@@ -20,14 +20,14 @@ public class Shader : Asset
 
     public Shader(string vertPath, string fragPath, string? geomPath = null, string? shaderGroupPath = null)
     {
-        vertPath = PathH.GetRelative(vertPath);
-        fragPath = PathH.GetRelative(fragPath);
+        vertPath = PathUtil.GetRelative(vertPath);
+        fragPath = PathUtil.GetRelative(fragPath);
         if (shaderGroupPath != null) Path = shaderGroupPath;
         Console.WriteLine($"Loading vert Shader {vertPath}");
         Console.WriteLine($"Loading frag Shader {fragPath}");
         if (geomPath != null)
         {
-            geomPath = PathH.GetRelative(geomPath);
+            geomPath = PathUtil.GetRelative(geomPath);
             Console.WriteLine($"Loading geom Shader {geomPath}");
         }
 

@@ -61,7 +61,7 @@ public class GameResourceManager
     private static void saveToJson(BaseObject obj, string path)
     {
         string jsonSerial = JsonConvert.SerializeObject(obj, settings);
-        File.WriteAllText(PathH.GetRelative(path), jsonSerial);
+        File.WriteAllText(PathUtil.GetRelative(path), jsonSerial);
         Console.WriteLine("jsonSerial:");
         Console.WriteLine(jsonSerial);
     }
