@@ -5,7 +5,10 @@
     "TrackedObject": {
       "$id": "3",
       "$type": "OpenGLGameEngine.Assets.Shader, OpenGLGameEngine",
-      "Handle": 3,
+      "Handle": 4,
+      "VertPath": "C:\\Users\\a10sp\\source\\repos\\OpenGLGameEngine\\CSharp\\OpenGLGameEngine\\OpenGLGameEngine\\Resources\\Shaders\\test.vert",
+      "FragPath": "C:\\Users\\a10sp\\source\\repos\\OpenGLGameEngine\\CSharp\\OpenGLGameEngine\\OpenGLGameEngine\\Resources\\Shaders\\test.frag",
+      "GeomPath": null,
       "Name": null,
       "Path": "Resources\\Shaders\\testShader.json",
       "IsLoaded": false,
@@ -24,7 +27,7 @@
       "Format": 0,
       "WrapMode": 0,
       "Name": null,
-      "Path": "Resources\\Textures\\container2.png",
+      "Path": "C:\\Users\\a10sp\\source\\repos\\OpenGLGameEngine\\CSharp\\OpenGLGameEngine\\OpenGLGameEngine\\Resources\\Textures\\container2.png",
       "IsLoaded": false,
       "RefrenceCounter": 0
     },

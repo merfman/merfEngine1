@@ -7,7 +7,6 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
-using System.Text.Json;
 using System.Runtime.InteropServices.Marshalling;
 using System.Reflection;
 
@@ -27,7 +26,7 @@ public class GameResourceManager
         TypeNameHandling = TypeNameHandling.Auto,                       // 🔁 Enables polymorphism
         PreserveReferencesHandling = PreserveReferencesHandling.All,    // 🔁 Shared & circular references
         Formatting = Formatting.Indented,                               // Pretty print
-        Converters = { new WeakReferenceConverter<Object>() },          // Enables WeakReferences
+        Converters = { new WeakReferenceConverter<BaseObject>() },      // Enables WeakReferences
         ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
         {
             DefaultMembersSearchFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance
@@ -36,6 +35,7 @@ public class GameResourceManager
 
     public static T? Load<T>(string path) where T : BaseObject
     {
+        Console.WriteLine($"GameResourceManager.Load<{typeof(T)}>: {path}");
         if (_LoadedObjects.TryGetValue(path, out BaseObject? existing))
             return existing == null ? null : (T)existing;
 
@@ -46,31 +46,21 @@ public class GameResourceManager
         return obj;
     }
 
+
     public static void Save(BaseObject obj, string path)
     {
         string fileExtension = Path.GetExtension(path);
-        switch(fileExtension)
+        switch (fileExtension)
         {
-            case ".json":
-                saveToJson(obj, path);
-                break;
-            default:
-                throw new NotImplementedException($"Error: Cannot Save, Unknown File extension \"{fileExtension}\"");
+            case ".json": saveToJson(obj, path); break;
+            default: throw new NotImplementedException($"Error: Cannot Save, Unknown File extension \"{fileExtension}\"");
         }
     }
     private static void saveToJson(BaseObject obj, string path)
     {
         string jsonSerial = JsonConvert.SerializeObject(obj, settings);
         File.WriteAllText(PathUtil.GetRelative(path), jsonSerial);
-        Console.WriteLine("jsonSerial:");
-        Console.WriteLine(jsonSerial);
+        //Console.WriteLine("jsonSerial:");
+        //Console.WriteLine(jsonSerial);
     }
-
-    //public static T? LoadFromFile<T>(string path)
-    //{
-    //    path = (path);
-    //    return JsonSerializer.Deserialize<T>(path);
-    //}
-
-
 }

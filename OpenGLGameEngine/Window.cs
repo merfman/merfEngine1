@@ -54,22 +54,11 @@ internal class Window : GameWindow
 
         resourceManager = new Files.GameResourceManager();
 
-
         CameraObject = new GameObject(name: "CameraObject");
         CameraObject.Transform.Scale = new Vector3(-1);
         ActiveCamera = CameraObject.AddComponent<CameraComponent>(Size.X / (float)Size.Y);
 
-        _testScene = new Scene()
-        {
-            ActiveCamera = ActiveCamera,
-            GameObjects = new Dictionary<string, GameObject>() //new List<GameObject>
-            {
-                ["TestSuzanne"] = new GameObject(name: "TestSuzanne")
-                {
-                    
-                }
-            }
-        };
+        
 
         _testGameObject = new GameObject(name: "TestSuzanne");
         //CameraObject.AddChild(_testGameObject);
@@ -90,13 +79,26 @@ internal class Window : GameWindow
         //_testGameObject.Children.Add(new WeakReference<GameObject>(testGameObject1));
 
         _testShader = new Shader(PathUtil.GetRelative(@"Resources\Shaders\test.vert"), PathUtil.GetRelative(@"Resources\Shaders\test.frag"), shaderGroupPath: @"Resources\Shaders\testShader.json") {};
+        GameResourceManager.Save(_testShader, PathUtil.GetRelative(@"Resources\Shaders\testShader.json"));
+
+        //_testShader = null;
+
+        _testShader = GameResourceManager.Load<Shader>(PathUtil.GetRelative(@"Resources\Shaders\testShader.json"));
+
         _testMaterial = new Material(_testShader);
-        //_testMaterial = GameResourceManager.LoadFromFile<Material>(@"Resources\Materials\testMaterial.json");
-        _testMesh = new Mesh((@"Resources\Meshes\Suzanne.obj"), _testMaterial);
-        _testTexture = Texture.LoadFromFile((@"Resources\Textures\container2.png"));
+        _testMesh = new Mesh(PathUtil.GetRelative(@"Resources\Meshes\Suzanne.obj"), _testMaterial);
+        _testTexture = Texture.LoadFromFile(PathUtil.GetRelative(@"Resources\Textures\container2.png"));
         _testMaterial.ColorMap = new WeakReference<Texture>(_testTexture);
+        GameResourceManager.Save(_testMaterial, PathUtil.GetRelative(@"Resources\Materials\testMaterial.json"));
+
+        //_testMaterial = GameResourceManager.Load<Material>(PathUtil.GetRelative(@"Resources\Materials\testMaterial.json"));
+
+
+
+
         _testGameObject.Assets.Add(new WeakReference<Asset>(_testMesh));
         testGameObject1.Assets.Add(new WeakReference<Asset>(_testMesh));
+
 
         _renderer = new Render();
 
@@ -104,12 +106,22 @@ internal class Window : GameWindow
         _renderer.AddToRenderList(ref testRenderComponent1);
 
         //_testGameObject.Transform.Roll = CameraObject.Transform.Pitch;
+
+        _testScene = new Scene()
+        {
+            ActiveCamera = ActiveCamera,
+            SceneObject = new GameObject(),
+            GameObjects = new List<GameObject>() //new List<GameObject>
+            {
+                _testGameObject,
+                testGameObject1
+            }
+        };
     }
     protected override void OnUnload()
     {
         base.OnUnload();
-        GameResourceManager.Save(_testShader, (@"Resources\Shaders\testShader.json"));
-        GameResourceManager.Save(_testMaterial, (@"Resources\Materials\testMaterial.json"));
+        
     }
     protected override void OnRenderFrame(FrameEventArgs args)
     {

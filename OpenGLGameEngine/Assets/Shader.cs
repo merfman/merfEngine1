@@ -18,22 +18,26 @@ public class Shader : Asset
 {
     public readonly int Handle;
 
-    public Shader(string vertPath, string fragPath, string? geomPath = null, string? shaderGroupPath = null)
+    public string? VertPath, FragPath, GeomPath;
+   
+    public Shader(string VertPath, string FragPath, string? GeomPath = null, string? shaderGroupPath = null)
     {
-        vertPath = PathUtil.GetRelative(vertPath);
-        fragPath = PathUtil.GetRelative(fragPath);
+        this.VertPath = VertPath == null ? this.VertPath : VertPath;
+        this.FragPath = FragPath == null ? this.FragPath : FragPath;
+        this.GeomPath = GeomPath == null ? this.GeomPath : GeomPath;
+
         if (shaderGroupPath != null) Path = shaderGroupPath;
-        Console.WriteLine($"Loading vert Shader {vertPath}");
-        Console.WriteLine($"Loading frag Shader {fragPath}");
-        if (geomPath != null)
+        Console.WriteLine($"Loading vert Shader {VertPath}");
+        Console.WriteLine($"Loading frag Shader {FragPath}");
+        if (GeomPath != null)
         {
-            geomPath = PathUtil.GetRelative(geomPath);
-            Console.WriteLine($"Loading geom Shader {geomPath}");
+            GeomPath = PathUtil.GetRelative(GeomPath);
+            Console.WriteLine($"Loading geom Shader {GeomPath}");
         }
 
-        int vertexShader = CompileShader(vertPath, ShaderType.VertexShader);
-        int fragmentShader = CompileShader(fragPath, ShaderType.FragmentShader);
-        int geometryShader = geomPath != null ? CompileShader(geomPath, ShaderType.GeometryShader) : 0;
+        int vertexShader = CompileShader(VertPath, ShaderType.VertexShader);
+        int fragmentShader = CompileShader(FragPath, ShaderType.FragmentShader);
+        int geometryShader = GeomPath != null ? CompileShader(GeomPath, ShaderType.GeometryShader) : 0;
 
         // Initialize the program
         Handle = GL.CreateProgram();
@@ -67,7 +71,7 @@ public class Shader : Asset
         //    throw new FileNotFoundException($"Error: Shader not found {shaderPath}");
 
         // Load and compile the shader
-        string shaderSource = File.ReadAllText(shaderPath);
+         string shaderSource = File.ReadAllText(shaderPath);
         int shader = GL.CreateShader(shaderType);
         GL.ShaderSource(shader, shaderSource);
 

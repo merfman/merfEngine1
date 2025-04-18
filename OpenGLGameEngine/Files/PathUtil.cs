@@ -11,6 +11,8 @@ public static class PathUtil
     public static string GetRelative(string relativePath)
     {
         string projectRoot = Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.FullName;
+        //if (relativePath == null) return projectRoot;
         return Path.Combine(projectRoot, relativePath);
+
     }
 }

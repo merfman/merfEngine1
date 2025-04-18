@@ -15,11 +15,11 @@ public class Scene : BaseObject
     /// <summary>
     /// List of <see cref="GameObject"/>s in the scene;
     /// </summary>
-    public Dictionary<string ,GameObject> GameObjects;
-    //public List<GameObject> GameObjects => _gameObjects.ToImmutableList;
+    public List<GameObject> GameObjects;
 
+    public List<RenderComponent> SceneRenderList;
     /// <summary>
-    /// <see cref="GameObject"/> that holds <see cref="Scene"/>
+    /// <see cref="GameObject"/> that holds <see cref="Scene"/> Data, for Example the Scene Transform.
     /// </summary>
     public GameObject SceneObject;
 
@@ -31,13 +31,12 @@ public class Scene : BaseObject
     public Scene(string? name = null) : base(name)
     {
         SceneObject = new GameObject(name);
-        GameObjects = new Dictionary<string, GameObject>(); //new List<GameObject>();
+        GameObjects = new List<GameObject>();
     }
 
     public void AddGameObject(ref GameObject gameObject)
     {
-        GameObjects.Add(gameObject.Name, gameObject);
-        //GameObjects.Add(gameObject);
+        GameObjects.Add(gameObject);
     }
 
     /// <summary>

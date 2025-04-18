@@ -1,6 +1,9 @@
 {
   "$id": "1",
   "Handle": 3,
+  "VertPath": "C:\\Users\\a10sp\\source\\repos\\OpenGLGameEngine\\CSharp\\OpenGLGameEngine\\OpenGLGameEngine\\Resources\\Shaders\\test.vert",
+  "FragPath": "C:\\Users\\a10sp\\source\\repos\\OpenGLGameEngine\\CSharp\\OpenGLGameEngine\\OpenGLGameEngine\\Resources\\Shaders\\test.frag",
+  "GeomPath": null,
   "Name": null,
   "Path": "Resources\\Shaders\\testShader.json",
   "IsLoaded": false,

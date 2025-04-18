@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace OpenGLGameEngine.Assets;
 
-//[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")] // Enables polymorphic serialization
-//[JsonDerivedType(typeof(Material), typeDiscriminator: "derived")]
 public abstract class Asset : BaseObject
 {
     public virtual void LoadFromFile(string path)

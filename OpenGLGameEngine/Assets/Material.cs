@@ -13,7 +13,6 @@ namespace OpenGLGameEngine.Assets;
 public class Material : Asset
 {
     public WeakReference<Shader> Shader;
-
     public WeakReference<Texture>? ColorMap;
     public WeakReference<Texture>? NormalMap;
     public WeakReference<Texture>? AOMap;
@@ -46,24 +45,24 @@ public class Material : Asset
 
         Shader = new WeakReference<Shader>(shader);
     }
-    private void SaveToFile(string path)
-    {
-        if (Shader.TryGetTarget(out Shader? shader) && shader != null)
-        {
-            Material mat = new Material(shader)
-            {
-                BaseColor = this.BaseColor,
-                ColorMap = this.ColorMap
-            };
-            string json = JsonSerializer.Serialize(mat, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
-            Console.WriteLine($"File {path} successfully created");
-        }
-        else Console.WriteLine("File creation Error");
-    }
-    public override void LoadFromFile(string path)
-    {
-        //TODO: add a save and load to json file type
-    }
+    //private void SaveToFile(string path)
+    //{
+    //    if (Shader.TryGetTarget(out Shader? shader) && shader != null)
+    //    {
+    //        Material mat = new Material(shader)
+    //        {
+    //            BaseColor = this.BaseColor,
+    //            ColorMap = this.ColorMap
+    //        };
+    //        string json = JsonSerializer.Serialize(mat, new JsonSerializerOptions { WriteIndented = true });
+    //        File.WriteAllText(path, json);
+    //        Console.WriteLine($"File {path} successfully created");
+    //    }
+    //    else Console.WriteLine("File creation Error");
+    //}
+    //public override void LoadFromFile(string path)
+    //{
+    //    //TODO: add a save and load to json file type
+    //}
 
 }

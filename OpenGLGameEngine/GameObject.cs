@@ -29,7 +29,6 @@ public class GameObject : BaseObject
     {
         get => _globalTransform;
         set =>
-            //_localTransform = value;
             _globalTransform = value;
     }
 
