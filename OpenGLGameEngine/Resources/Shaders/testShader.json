@@ -1,6 +1,8 @@
 {
+  "$id": "1",
   "Handle": 3,
+  "Name": null,
   "Path": "Resources\\Shaders\\testShader.json",
   "IsLoaded": false,
-  "Name": null
+  "RefrenceCounter": 0
 }

@@ -11,33 +11,33 @@ namespace OpenGLGameEngine.Files;
 /// <summary>
 /// 
 /// </summary>
-public class JsonSaveLoad
-{
-    private static readonly JsonSerializerOptions options = new()
-    {
-        WriteIndented = true, // Pretty-print JSON for readability
-        IncludeFields = true, // Ensures all fields are included
-        Converters =
-        {
-            new WeakReferenceConverter<Shader>(), // Auto-handle Shader weak refs
-            new WeakReferenceConverter<Texture>() // Auto-handle Texture weak refs
-        }
-    };
+//public class JsonSaveLoad
+//{
+//    private static readonly JsonSerializerOptions options = new()
+//    {
+//        WriteIndented = true, // Pretty-print JSON for readability
+//        IncludeFields = true, // Ensures all fields are included
+//        Converters =
+//        {
+//            new WeakReferenceConverter<Shader>(), // Auto-handle Shader weak refs
+//            new WeakReferenceConverter<Texture>() // Auto-handle Texture weak refs
+//        }
+//    };
     
-    // Generic save method
-    public static void Save<T>(T obj, string filePath)
-    {
-        string json = JsonSerializer.Serialize(obj, options);
-        File.WriteAllText(filePath, json);
-    }
+//    // Generic save method
+//    public static void Save<T>(T obj, string filePath)
+//    {
+//        string json = JsonSerializer.Serialize(obj, options);
+//        File.WriteAllText(filePath, json);
+//    }
 
-    // Generic load method
-    public static T? Load<T>(string filePath) where T : class
-    {
-        if (!File.Exists(filePath))
-            return null;
+//    // Generic load method
+//    public static T? Load<T>(string filePath) where T : class
+//    {
+//        if (!File.Exists(filePath))
+//            return null;
 
-        string json = File.ReadAllText(filePath);
-        return JsonSerializer.Deserialize<T>(json, options);
-    }
-}
+//        string json = File.ReadAllText(filePath);
+//        return JsonSerializer.Deserialize<T>(json, options);
+//    }
+//}

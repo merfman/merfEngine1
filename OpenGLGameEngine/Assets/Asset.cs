@@ -11,11 +11,9 @@ namespace OpenGLGameEngine.Assets;
 //[JsonDerivedType(typeof(Material), typeDiscriminator: "derived")]
 public abstract class Asset : BaseObject
 {
-    public string Path { get; internal set; }
-    public bool IsLoaded { get; internal set; }
-
     public virtual void LoadFromFile(string path)
     {
         Console.WriteLine($"Loading File {path}");
+        Path = path;
     }
 }

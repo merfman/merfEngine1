@@ -1,19 +1,50 @@
 {
-  "Shader": "Resources\\Shaders\\testShader.json",
-  "ColorMap": "Resources\\Textures\\container2.png",
+  "$id": "1",
+  "Shader": {
+    "$id": "2",
+    "TrackedObject": {
+      "$id": "3",
+      "$type": "OpenGLGameEngine.Assets.Shader, OpenGLGameEngine",
+      "Handle": 3,
+      "Name": null,
+      "Path": "Resources\\Shaders\\testShader.json",
+      "IsLoaded": false,
+      "RefrenceCounter": 0
+    },
+    "TrackResurrection": false
+  },
+  "ColorMap": {
+    "$id": "4",
+    "TrackedObject": {
+      "$id": "5",
+      "$type": "OpenGLGameEngine.Assets.Texture, OpenGLGameEngine",
+      "Handle": 1,
+      "Width": 0,
+      "Height": 0,
+      "Format": 0,
+      "WrapMode": 0,
+      "Name": null,
+      "Path": "Resources\\Textures\\container2.png",
+      "IsLoaded": false,
+      "RefrenceCounter": 0
+    },
+    "TrackResurrection": false
+  },
   "NormalMap": null,
   "AOMap": null,
   "RoughnessMap": null,
   "BaseColor": {
-    "R": 127,
-    "G": 127,
-    "B": 127,
-    "A": 255
+    "$id": "6",
+    "R": 127.0,
+    "G": 127.0,
+    "B": 127.0,
+    "A": 255.0
   },
-  "Roughness": 0,
-  "Shininess": 0,
-  "Alpha": 0,
+  "Roughness": 0.0,
+  "Shininess": 0.0,
+  "Alpha": 0.0,
+  "Name": null,
   "Path": null,
   "IsLoaded": false,
-  "Name": null
+  "RefrenceCounter": 0
 }

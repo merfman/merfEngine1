@@ -17,7 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace OpenGLGameEngine;
 internal class Window : GameWindow
 {
-    private GameResourceManager resourceManager;
+    private Files.GameResourceManager resourceManager;
 
     private Scene _testScene;
 
@@ -52,7 +52,7 @@ internal class Window : GameWindow
     {
         base.OnLoad();
 
-        resourceManager = new GameResourceManager();
+        resourceManager = new Files.GameResourceManager();
 
 
         CameraObject = new GameObject(name: "CameraObject");
@@ -108,8 +108,8 @@ internal class Window : GameWindow
     protected override void OnUnload()
     {
         base.OnUnload();
-        resourceManager.SaveToFile(_testShader, (@"Resources\Shaders\testShader.json"));
-        resourceManager.SaveToFile(_testMaterial, (@"Resources\Materials\testMaterial.json"));
+        GameResourceManager.Save(_testShader, (@"Resources\Shaders\testShader.json"));
+        GameResourceManager.Save(_testMaterial, (@"Resources\Materials\testMaterial.json"));
     }
     protected override void OnRenderFrame(FrameEventArgs args)
     {

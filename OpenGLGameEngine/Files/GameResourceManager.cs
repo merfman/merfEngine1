@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Runtime.InteropServices.Marshalling;
+using System.Reflection;
 
 namespace OpenGLGameEngine.Files;
 /// <summary>
@@ -18,14 +19,34 @@ namespace OpenGLGameEngine.Files;
 public class GameResourceManager
 {
     /// <summary>
-    /// 
+    /// A Dictionary of all Loaded BaseObjects.
     /// </summary>
-    public Dictionary<string,BaseObject> _LoadedDynamicObjects;
+    public static Dictionary<string,BaseObject> _LoadedObjects = new Dictionary<string, BaseObject>();
+    public static JsonSerializerSettings settings = new JsonSerializerSettings
+    {
+        TypeNameHandling = TypeNameHandling.Auto,                       // 🔁 Enables polymorphism
+        PreserveReferencesHandling = PreserveReferencesHandling.All,    // 🔁 Shared & circular references
+        Formatting = Formatting.Indented,                               // Pretty print
+        Converters = { new WeakReferenceConverter<Object>() },          // Enables WeakReferences
+        ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+        {
+            DefaultMembersSearchFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance
+        }
+    };
 
-    public Dictionary<string, Asset> _LoadedAssets;
+    public static T? Load<T>(string path) where T : BaseObject
+    {
+        if (_LoadedObjects.TryGetValue(path, out BaseObject? existing))
+            return existing == null ? null : (T)existing;
 
+        var json = File.ReadAllText(path);
+        var obj = JsonConvert.DeserializeObject<T>(json, settings);
 
-    public void SaveToFile(object obj, string path)
+        _LoadedObjects[path] = obj;
+        return obj;
+    }
+
+    public static void Save(BaseObject obj, string path)
     {
         string fileExtension = Path.GetExtension(path);
         switch(fileExtension)
@@ -37,29 +58,19 @@ public class GameResourceManager
                 throw new NotImplementedException($"Error: Cannot Save, Unknown File extension \"{fileExtension}\"");
         }
     }
-    private void saveToJson(object obj, string path)
+    private static void saveToJson(BaseObject obj, string path)
     {
-        JsonSerializerOptions options = new JsonSerializerOptions()
-        {
-            WriteIndented = true, // Pretty-print JSON for readability
-            IncludeFields = true, // Ensures all fields are included
-            Converters =
-            {
-                new WeakReferenceConverter<Shader>(), // Auto-handle Shader weak refs
-                new WeakReferenceConverter<Texture>() // Auto-handle Texture weak refs
-            }
-        };
-
-        string jsonSerial = JsonSerializer.Serialize(obj, options);
+        string jsonSerial = JsonConvert.SerializeObject(obj, settings);
+        File.WriteAllText(PathH.GetRelative(path), jsonSerial);
         Console.WriteLine("jsonSerial:");
         Console.WriteLine(jsonSerial);
-        File.WriteAllText(PathH.GetRelative(path), jsonSerial);
     }
 
-    public static T? LoadFromFile<T>(string path)
-    {
-        path = (path);
-        return JsonSerializer.Deserialize<T>(path);
-    }
+    //public static T? LoadFromFile<T>(string path)
+    //{
+    //    path = (path);
+    //    return JsonSerializer.Deserialize<T>(path);
+    //}
+
 
 }
